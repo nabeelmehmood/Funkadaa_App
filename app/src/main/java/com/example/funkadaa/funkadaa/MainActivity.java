@@ -46,15 +46,13 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    void  ChangeFrag()
-{
+    void  ChangeFrag() {
+        FragmentManager manager=getSupportFragmentManager();
+        FragmentTransaction transaction=manager.beginTransaction();
+        transaction.replace(R.id.fragment,F);
+        transaction.commit();
+    }
 
-    FragmentManager manager=getSupportFragmentManager();
-    FragmentTransaction transaction=manager.beginTransaction();
-    transaction.replace(R.id.fragment,F).addToBackStack(null);
-    transaction.commit();
-
-}
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
