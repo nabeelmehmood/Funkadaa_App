@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "113491668536",
+    "firebase_url": "https://funkadaa-5454.firebaseio.com",
+    "project_id": "funkadaa-5454",
+    "storage_bucket": "funkadaa-5454.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113491668536:android:6779e1d1156a17d5",
+        "android_client_info": {
+          "package_name": "com.example.funkadaa.funkadaa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "113491668536-ehkg3t2aun09p9gq3ctetjmsls23m4u5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.funkadaa.funkadaa",
+            "certificate_hash": "99a2bd0c274f989ea951e8b25797a125622d30d2"
+          }
+        },
+        {
+          "client_id": "113491668536-i64qoefqsc5h7l1c66t154kt4i6ebnn7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDZNvC9hJiwB9ecTRdHbM-4fAz5_9Rb9q0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "113491668536-i64qoefqsc5h7l1c66t154kt4i6ebnn7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
