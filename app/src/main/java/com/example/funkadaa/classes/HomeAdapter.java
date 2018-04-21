@@ -16,6 +16,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeViewHolder> {
     private Context c;
     private HomeViewHolder holder;
 
+    public HomeAdapter(List<SingleHomeFeedItem> items, Context c) {
+        this.items = items;
+        this.c = c;
+    }
 
     @Override
     public HomeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

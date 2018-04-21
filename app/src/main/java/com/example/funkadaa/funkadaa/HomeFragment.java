@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.funkadaa.classes.FollowNotification;
+import com.example.funkadaa.classes.HomeAdapter;
 import com.example.funkadaa.classes.HomeViewHolder;
 import com.example.funkadaa.classes.MyNotification;
 import com.example.funkadaa.classes.MyNotificationViewHolder;
@@ -28,7 +29,7 @@ public class HomeFragment extends Fragment {
 
 
     RecyclerView rv;
-    RecyclerView.Adapter<HomeViewHolder> ad;
+    HomeAdapter ad;
     ArrayList<SingleHomeFeedItem> list;
     Context c;
 
@@ -61,7 +62,7 @@ public class HomeFragment extends Fragment {
         list.add(s);
         list.add(s);
         list.add(s);
-
+        ad = new HomeAdapter(list,c);
 
 
 

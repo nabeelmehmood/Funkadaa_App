@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,10 +15,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class HomeViewHolder  extends RecyclerView.ViewHolder{
-    Button Like;
-    Button Comment;
-    Button Save;
-    Button AddToCart;
+    ImageButton Like;
+    ImageButton Comment;
+    ImageButton Save;
+    ImageButton AddToCart;
     ImageView Image;
     ImageView Dp;
     TextView Name1;
@@ -26,10 +27,10 @@ public class HomeViewHolder  extends RecyclerView.ViewHolder{
     String d;
     public HomeViewHolder(View view) {
         super(view);
-    Like=(Button) view.findViewById(R.id.imageButton1);
-    Comment=(Button)view.findViewById(R.id.imageButton2);
-    Save=(Button)view.findViewById(R.id.imageButton3);
-    AddToCart=(Button)view.findViewById(R.id.imageButton4);
+    Like=(ImageButton) view.findViewById(R.id.imageButton1);
+    Comment=(ImageButton)view.findViewById(R.id.imageButton2);
+    Save=(ImageButton)view.findViewById(R.id.imageButton3);
+    AddToCart=(ImageButton)view.findViewById(R.id.imageButton4);
     Image=(ImageView)view.findViewById(R.id.imageView);
     Dp=(ImageView)view.findViewById(R.id.imageView2);
     Name1=(TextView)view.findViewById(R.id.textView);
