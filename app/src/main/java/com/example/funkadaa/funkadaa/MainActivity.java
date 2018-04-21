@@ -7,11 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 
@@ -32,9 +29,9 @@ public class MainActivity extends FragmentActivity {
                     F= new HomeFragment();
                     ChangeFrag();
                     return true;
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    F= new DashboardFragment();
+                case R.id.menu_search:
+                    mTextMessage.setText("Global Feed");
+                    F= new SearchFragment();
                     ChangeFrag();
                     return true;
                 case R.id.navigation_notifications:
