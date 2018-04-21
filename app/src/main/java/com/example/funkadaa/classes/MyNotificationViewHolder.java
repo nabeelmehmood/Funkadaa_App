@@ -18,8 +18,10 @@ public class MyNotificationViewHolder extends RecyclerView.ViewHolder {
     TextView notif;
     TextView date;
 
-    public MyNotificationViewHolder(View itemView) {
+    public MyNotificationViewHolder(View itemView)
+    {
         super(itemView);
+
     }
 
 
