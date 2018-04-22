@@ -39,8 +39,12 @@ public class HomeViewHolder  extends RecyclerView.ViewHolder{
 
     }
     public void setValues(SingleHomeFeedItem S, Context c){
-        new ImageDownloaderAsync(Dp,c).execute(S.getImageUrlDp());
-        new ImageDownloaderAsync(Image,c).execute(S.getImageUrlItem());
+        ImageURLHandler handler = new ImageURLHandler(c,Dp);
+        handler.loadImage(S.getImageUrlDp());
+        handler = new ImageURLHandler(c,Image);
+        handler.loadImage(S.getImageUrlItem());
+//        new ImageDownloaderAsync(Dp,c).execute(S.getImageUrlDp());
+//        new ImageDownloaderAsync(Image,c).execute(S.getImageUrlItem());
 
         DateFormat df3 = new SimpleDateFormat("dd-MMM-yyyy");
         d=(df3.format(S.getTime()));

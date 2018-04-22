@@ -39,10 +39,11 @@ public class NotificationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        c=getContext();
 
         //dummydata
         User u = new User("Nabeel");
-        MyNotification notification = new FollowNotification(u,"followed you", "https://firebasestorage.googleapis.com/v0/b/funkadaa-5454.appspot.com/o/4CFED752-63BF-4C2F-81D3-751E6866EF7C.jpg?alt=media&token=3bf70999-5d0d-4a0d-9dc3-f42dd4481db3", new Date(), false);
+        MyNotification notification = new FollowNotification(u,"followed you", "4CFED752-63BF-4C2F-81D3-751E6866EF7C.jpg", new Date(), false);
         list = new ArrayList<>();
         list.add(notification);
         list.add(notification);
