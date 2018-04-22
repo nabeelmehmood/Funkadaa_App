@@ -98,6 +98,14 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        email=null;
+        password=null;
+        mAuth=null;
+    }
+
     public void onClickSignIn(View v){
         email = ((EditText)findViewById(R.id.signin_email)).getText().toString();
         password = ((EditText)findViewById(R.id.signin_password)).getText().toString();

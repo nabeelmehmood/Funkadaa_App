@@ -63,6 +63,15 @@ public class NotificationFragment extends Fragment {
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        rv.setAdapter(null);
+        rv = null;
+        list=null;
+        ad=null;
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv = (RecyclerView) getView().findViewById(R.id.notification_recycler);

@@ -62,4 +62,10 @@ public class FirstScreenActivity extends AppCompatActivity {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAuth=null;
+    }
 }

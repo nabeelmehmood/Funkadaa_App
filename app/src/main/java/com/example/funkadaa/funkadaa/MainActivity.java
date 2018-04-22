@@ -80,6 +80,15 @@ public class MainActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mTextMessage = null;
+        F=null;
+        mFirebaseAnalytics=null;
+        mDatabase=null;
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

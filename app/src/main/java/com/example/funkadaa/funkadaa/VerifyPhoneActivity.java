@@ -108,6 +108,16 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAuth=null;
+        u=null;
+        db=null;
+        mCallbacks=null;
+        mVerificationId=null;
+
+    }
 
     public void onVerifyClick(View v){
         String code = ((EditText)findViewById(R.id.verfication_code)).getText().toString();

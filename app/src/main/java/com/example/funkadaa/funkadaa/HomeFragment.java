@@ -72,6 +72,16 @@ public class HomeFragment extends Fragment {
 
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        rv.setAdapter(null);
+        rv=null;
+        ad=null;
+        list=null;
+
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv = (RecyclerView) getView().findViewById(R.id.recyclerview);

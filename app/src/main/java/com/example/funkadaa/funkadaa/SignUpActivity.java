@@ -59,6 +59,17 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAuth=null;
+        email=null;
+        password=null;
+        name=null;
+        phone=null;
+        db=null;
+    }
+
     public void onClickRegister(View v){
         email = ((EditText)findViewById(R.id.signup_email)).getText().toString();
         password = ((EditText)findViewById(R.id.signup_password)).getText().toString();
