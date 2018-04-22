@@ -10,6 +10,19 @@ import com.example.funkadaa.funkadaa.R;
 
 public class SearchAdapter extends BaseAdapter {
     private Context mContext;
+    // references to our images
+    private Integer[] mThumbIds = {
+            R.drawable.starrynight, R.drawable.zain12,
+            R.drawable.zain1, R.drawable.zain11,
+            R.drawable.zain2, R.drawable.zain13,
+            R.drawable.zain3, R.drawable.zain14,
+            R.drawable.zain4, R.drawable.zain15,
+            R.drawable.zain5, R.drawable.zain16,
+            R.drawable.zain6, R.drawable.zain17,
+            R.drawable.zain7, R.drawable.zain18,
+            R.drawable.zain8, R.drawable.zain19,
+            R.drawable.zain9, R.drawable.zain10,
+    };
 
     public SearchAdapter(Context c) {
         mContext = c;
@@ -44,18 +57,5 @@ public class SearchAdapter extends BaseAdapter {
         return imageView;
     }
 
-    // references to our images
-    private Integer[] mThumbIds = {
-            R.drawable.starrynight, R.drawable.zain12,
-            R.drawable.zain1, R.drawable.zain11,
-            R.drawable.zain2, R.drawable.zain13,
-            R.drawable.zain3, R.drawable.zain14,
-            R.drawable.zain4, R.drawable.zain15,
-            R.drawable.zain5, R.drawable.zain16,
-            R.drawable.zain6, R.drawable.zain17,
-            R.drawable.zain7, R.drawable.zain18,
-            R.drawable.zain8, R.drawable.zain19,
-            R.drawable.zain9, R.drawable.zain10,
-    };
 
 }

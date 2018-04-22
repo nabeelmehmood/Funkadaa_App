@@ -1,9 +1,12 @@
 package com.example.funkadaa.funkadaa;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +16,14 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
+import com.example.funkadaa.classes.HomeAdapter;
 import com.example.funkadaa.classes.SearchAdapter;
 
 public class SearchFragment extends Fragment {
 
     GridView gridview;
+    SearchAdapter ad;
+    Context c;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -25,7 +31,7 @@ public class SearchFragment extends Fragment {
       //  container.removeAllViews();
 
 
-
+        ad = new SearchAdapter(c);
 
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
@@ -36,8 +42,8 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         gridview = (GridView) getView().findViewById(R.id.gridview);
-        Adapter ad =new SearchAdapter(getContext());
-        gridview.setAdapter((ListAdapter) ad);
+
+        gridview.setAdapter(ad);
 
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
@@ -46,6 +52,7 @@ public class SearchFragment extends Fragment {
                         Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
     }
