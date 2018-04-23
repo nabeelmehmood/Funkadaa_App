@@ -32,8 +32,8 @@ public class FollowNotificationHolder extends MyNotificationViewHolder {
 
     public void setValues(MyNotification notification, Context c){
 
-        ImageURLHandler handler = new ImageURLHandler(c,image);
-        handler.loadImage(notification.getImageUrl());
+        //new ImageURLHandler(c,image).execute(notification.getImageUrl());
+        new ImageThumbnailDownloaderAsync(image,c).execute(notification.getImageUrl());
         notif.setText(notification.getNotif());
         DateFormat df3 = new SimpleDateFormat("dd-MMM-yyyy");
         date.setText(df3.format(notification.getTime()));
