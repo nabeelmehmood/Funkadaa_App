@@ -48,8 +48,8 @@ public class HomeFragment extends Fragment {
         u.setName("Blah Blah ");
 
         // String imageUrlItem, String imageUrlDp, String description, Date time
-
-        SingleHomeFeedItem s = new SingleHomeFeedItem(u,"https://firebasestorage.googleapis.com/v0/b/funkadaa-5454.appspot.com/o/4CFED752-63BF-4C2F-81D3-751E6866EF7C.jpg?alt=media&token=3bf70999-5d0d-4a0d-9dc3-f42dd4481db3", "https://firebasestorage.googleapis.com/v0/b/funkadaa-5454.appspot.com/o/4CFED752-63BF-4C2F-81D3-751E6866EF7C.jpg?alt=media&token=3bf70999-5d0d-4a0d-9dc3-f42dd4481db3", "ABCDEFGHIJKLMNOPQ",new Date());
+        c=getContext();
+        SingleHomeFeedItem s = new SingleHomeFeedItem(u,"4CFED752-63BF-4C2F-81D3-751E6866EF7C.jpg", "4CFED752-63BF-4C2F-81D3-751E6866EF7C.jpg", "ABCDEFGHIJKLMNOPQ",new Date());
 
         list = new ArrayList<>();
         list.add(s);

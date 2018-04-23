@@ -2,6 +2,8 @@ package com.example.funkadaa.classes;
 
 import android.app.Notification;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -29,13 +31,17 @@ public class FollowNotificationHolder extends MyNotificationViewHolder {
     }
 
     public void setValues(MyNotification notification, Context c){
-        new ImageDownloaderAsync(image,c).execute(notification.getImageUrl());
+
+        //new ImageURLHandler(c,image).execute(notification.getImageUrl());
+        new ImageThumbnailDownloaderAsync(image,c).execute(notification.getImageUrl());
         notif.setText(notification.getNotif());
         DateFormat df3 = new SimpleDateFormat("dd-MMM-yyyy");
         date.setText(df3.format(notification.getTime()));
         followButton.setVisibility(View.VISIBLE);
 
     }
+
+
 
 }
 
