@@ -136,27 +136,10 @@ public class VerifyPhoneActivity extends AppCompatActivity {
                             FirebaseUser user = task.getResult().getUser();
                             // ...
 
-                            db.child("users").setValue(user.getUid());
                             db.child("users").child(user.getUid()).setValue(u);
                             String password = getIntent().getStringExtra("password");
                             AuthCredential credential = EmailAuthProvider.getCredential(u.getEmail(), password);
-//                            mAuth.getCurrentUser().linkWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<AuthResult> task) {
-//                                    if (task.isSuccessful()) {
-//                                        Log.d("phone", "linkWithCredential:success");
-//                                        FirebaseUser user = task.getResult().getUser();
-//                                        updateUI(user);
-//                                    } else {
-//                                        Log.w("phone", "linkWithCredential:failure", task.getException());
-//                                        Toast.makeText(VerifyPhoneActivity.this, "Authentication failed.",
-//                                                Toast.LENGTH_SHORT).show();
-//                                        updateUI(null);
-//                                    }
 //
-//                                    // ...
-//                                }
-//                            });
                             OnCompleteListener<AuthResult> x = new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
