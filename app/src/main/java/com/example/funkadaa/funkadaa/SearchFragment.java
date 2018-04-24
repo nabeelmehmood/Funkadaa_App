@@ -30,7 +30,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
       //  container.removeAllViews();
 
-
+        c = getContext();
         ad = new SearchAdapter(c);
 
         return inflater.inflate(R.layout.fragment_search, container, false);
