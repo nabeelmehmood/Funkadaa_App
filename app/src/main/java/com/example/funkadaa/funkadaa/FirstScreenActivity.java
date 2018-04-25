@@ -30,8 +30,12 @@ public class FirstScreenActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
        // mAuth.signOut();
 
+=======
+        
+>>>>>>> d008646b7c0fd4321993b11c11cfb6e1ad1acbf3
 =======
         
 >>>>>>> d008646b7c0fd4321993b11c11cfb6e1ad1acbf3
