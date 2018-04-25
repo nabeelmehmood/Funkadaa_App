@@ -4,12 +4,20 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageView;
 
 import com.example.funkadaa.funkadaa.R;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class SearchAdapter extends BaseAdapter {
     private Context mContext;
+
+
+    SingleHomeFeedItem s ;
+
     // references to our images
     private Integer[] mThumbIds = {
             R.drawable.starrynight, R.drawable.zain12,
@@ -26,6 +34,7 @@ public class SearchAdapter extends BaseAdapter {
 
     public SearchAdapter(Context c) {
         mContext = c;
+
     }
 
     public int getCount() {
@@ -46,12 +55,13 @@ public class SearchAdapter extends BaseAdapter {
         if (convertView == null) {
             // if it's not recycled, initialize some attributes
             imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new ViewGroup.LayoutParams(85, 85));
+            imageView.setLayoutParams(new GridView.LayoutParams((int)mContext.getResources().getDimension(R.dimen.width), (int)mContext.getResources().getDimension(R.dimen.height)));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
+            imageView.setPadding(5, 5, 5, 5);
         } else {
             imageView = (ImageView) convertView;
         }
+
 
         imageView.setImageResource(mThumbIds[position]);
         return imageView;
