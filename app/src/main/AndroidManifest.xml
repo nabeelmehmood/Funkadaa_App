@@ -19,7 +19,6 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" />
-
         <activity
             android:name=".FirstScreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -51,7 +50,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.funkadaa.funkadaa.FirstScreenActivity" />
         </activity>
-        <activity android:name=".VerifyPhoneActivity"></activity>
+        <activity android:name=".VerifyPhoneActivity" />
+        <activity android:name=".UploadActivity"></activity>
     </application>
 
 </manifest>
