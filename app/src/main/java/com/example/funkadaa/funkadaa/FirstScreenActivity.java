@@ -29,8 +29,7 @@ public class FirstScreenActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         mAuth = FirebaseAuth.getInstance();
 
-        mAuth.signOut()
-
+        
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if(currentUser != null)
