@@ -28,6 +28,8 @@ import android.widget.TextView;
 import com.example.funkadaa.funkadaa.MainActivity;
 import com.example.funkadaa.funkadaa.Post;
 import com.example.funkadaa.funkadaa.R;
+import com.example.funkadaa.funkadaa.UploadActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileDescriptor;
@@ -36,7 +38,7 @@ import java.io.IOException;
 public class SelectUpload extends DialogFragment {
     public SelectUpload() {
     }
-
+    private Context c;
     private static final String TAG = "SelectPhotoDialog";
     private static final int PICKFILE_REQUEST_CODE = 1234;
     private static final int CAMERA_REQUEST_CODE = 4321;
@@ -55,6 +57,7 @@ public class SelectUpload extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialogue_upload, container, false);
 
+        c = getActivity();
         TextView selectPhoto = (TextView) view.findViewById(R.id.dialogChoosePhoto);
         selectPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,29 +104,35 @@ public class SelectUpload extends DialogFragment {
             Results when selecting a new image from memory
          */
         if(requestCode == PICKFILE_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            Uri selectedImageUri = data.getData();
-            Log.d(TAG, "onActivityResult: image uri: " + selectedImageUri);
+            Uri photoUri = data.getData();
+            if (photoUri != null) {
+                try {
+                    Intent i = new Intent(c,UploadActivity.class);
 
-            //send the uri to PostFragment & dismiss dialog
-            mOnPhotoSelectedListener.getImagePath(selectedImageUri);
-            getDialog().dismiss();
-            u=selectedImageUri;
-         //   bitmap = uriToBitmap(selectedImageUri);
-
-
+                    i.putExtra("uri",photoUri.toString());
+                    i.putExtra("user", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    startActivity(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
         /*
             Results when taking a new photo with camera
          */
         else if(requestCode == CAMERA_REQUEST_CODE && resultCode == Activity.RESULT_OK){
-            Log.d(TAG, "onActivityResult: done taking new photo");
+            Uri photoUri = data.getData();
+            if (photoUri != null) {
+                try {
+                    Intent i = new Intent(c,UploadActivity.class);
 
-            bitmap = (Bitmap) data.getExtras().get("data");
-
-            //send the bitmap to PostFragment and dismiss dialog
-            mOnPhotoSelectedListener.getImageBitmap(bitmap);
-            getDialog().dismiss();
-            u=getImageUri(getContext(),bitmap);
+                    i.putExtra("uri",photoUri.toString());
+                    i.putExtra("user", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    startActivity(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         String input = String.valueOf(u);
