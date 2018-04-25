@@ -1,7 +1,6 @@
 package com.example.funkadaa.classes;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,18 +12,6 @@ public class Post {
     String description;
     String uploaderID;
     Date time;
-    Map<String,Boolean> likedby;
-
-
-    public Map<String, Boolean> getLikedby() {
-        return likedby;
-    }
-
-    public void setLikedby(Map<String, Boolean> likedby) {
-        this.likedby = likedby;
-    }
-
-
 
     public Date getTime() {
         return time;
@@ -34,7 +21,7 @@ public class Post {
         this.time = time;
     }
 
-
+    int likes;
 
     public String getImageID() {
         return imageID;
@@ -56,8 +43,7 @@ public class Post {
         this.imageID = imageID;
         this.description = description;
         this.uploaderID = uploaderID;
-        this.likedby = new HashMap<>();
-        likedby.put(uploaderID,true);
+        this.likes = 0;
     }
 
     public String getUploaderID() {
@@ -70,9 +56,12 @@ public class Post {
     }
 
     public int getLikes() {
-        return likedby.size();
+        return likes;
     }
 
+    public void setLikes(int likes) {
+        this.likes = likes;
+    }
 
     public Post(String imageID, String description) {
         this.imageID = imageID;

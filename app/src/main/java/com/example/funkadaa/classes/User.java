@@ -1,7 +1,6 @@
 package com.example.funkadaa.classes;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,25 +14,6 @@ public class User implements Serializable{
     String email;
     String phone;
     Map<String,Post> userposts;
-    Map<String,Boolean> followedby;
-    String dp;
-    Cart c;
-
-    public String getDp() {
-        return dp;
-    }
-
-    public void setDp(String dp) {
-        this.dp = dp;
-    }
-
-    public Map<String, Boolean> getFollowedby() {
-        return followedby;
-    }
-
-    public void setFollowedby(Map<String, Boolean> followedby) {
-        this.followedby = followedby;
-    }
 
     public Map<String, Post> getUserposts() {
         return userposts;
@@ -57,8 +37,6 @@ public class User implements Serializable{
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.followedby = new HashMap<>();
-        followedby.put(id,true);
     }
 
 
