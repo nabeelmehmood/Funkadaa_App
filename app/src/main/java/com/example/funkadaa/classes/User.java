@@ -1,8 +1,6 @@
 package com.example.funkadaa.classes;
 
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by nabee on 4/19/2018.
@@ -10,18 +8,6 @@ import java.util.Map;
 
 public class User implements Serializable{
     String id;
-    String name;
-    String email;
-    String phone;
-    Map<String,Post> userposts;
-
-    public Map<String, Post> getUserposts() {
-        return userposts;
-    }
-
-    public void setUserposts(Map<String, Post> userposts) {
-        this.userposts = userposts;
-    }
 
     public String getId() {
         return id;
@@ -39,7 +25,9 @@ public class User implements Serializable{
         this.phone = phone;
     }
 
-
+    String name;
+    String email;
+    String phone;
 
     public String getEmail() {
         return email;

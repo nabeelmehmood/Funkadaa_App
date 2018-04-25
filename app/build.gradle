@@ -20,11 +20,7 @@ android {
         }
     }
 }
-android {
-    defaultConfig {
-        vectorDrawables.useSupportLibrary = true
-    }
-}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
@@ -43,7 +39,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:15.0.0'
     implementation 'com.google.firebase:firebase-perf:15.0.0'
     implementation 'com.android.support:support-annotations:+'
-    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

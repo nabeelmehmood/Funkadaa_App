@@ -1,50 +1,53 @@
 package com.example.funkadaa.funkadaa;
 
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
+
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.funkadaa.classes.IMainActivity;
-import com.example.funkadaa.classes.SelectUpload;
+import com.example.funkadaa.classes.User;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends FragmentActivity implements IMainActivity {
-    private static final String TAG = "PostFragment";
+import java.io.Console;
+import java.util.HashMap;
+import java.util.Map;
+
+public class MainActivity extends FragmentActivity {
+
     private TextView mTextMessage;
     Fragment F;
     private FirebaseAnalytics mFirebaseAnalytics;
     DatabaseReference mDatabase;
-    String imageuri;
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            FragmentManager manager = getSupportFragmentManager();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText("FunKadaa");
+                    mTextMessage.setText(R.string.title_home);
                     F = new HomeFragment();
                     ChangeFrag();
                     return true;
 
                 case R.id.menu_search:
-                    mTextMessage.setText("FunKadaa");
+                    mTextMessage.setText("Global Feed");
                     F= new SearchFragment();
 
                     ChangeFrag();
@@ -60,14 +63,6 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
                     F = new ProfileFragment();
                     ChangeFrag();
                     return true;
-                case R.id.Upload:
-                    mTextMessage.setText("Upload");
-                    verifyPermissions();
-                    Log.d(TAG, "onClick: opening dialog to choose new photo");
-                    SelectUpload SU = new SelectUpload();
-                    SU.show(getFragmentManager(), "fragment_edit_name");
-
-                   return true;
             }
 
             return false;
@@ -95,12 +90,6 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        // Create global configuration and initialize ImageLoader with this config
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
-        ImageLoader.getInstance().init(config);
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -108,35 +97,5 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
-    private void verifyPermissions(){
-        Log.d(TAG, "verifyPermissions: asking user for permissions");
-        String[]permissions = { android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.CAMERA};
 
-        if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                permissions[0]) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                permissions[1]) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this.getApplicationContext(),
-                permissions[2]) == PackageManager.PERMISSION_GRANTED){
-            Toast.makeText(this,"Permission Granted",Toast.LENGTH_LONG).show();
-        }else{
-            ActivityCompat.requestPermissions(this, permissions,1);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        verifyPermissions();
-    }
-
-
-    @Override
-    public void setimage(String uri) {
-        imageuri=uri;
-        Toast.makeText(this,uri,Toast.LENGTH_LONG).show();
-    }
 }
-
-
