@@ -1,5 +1,6 @@
 package com.example.funkadaa.classes;
 
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -10,9 +11,13 @@ import java.util.Map;
 
 public class User implements Serializable{
     String id;
+
     String name;
+
     String email;
+
     String phone;
+
     Map<String,Post> userposts;
 
     public Map<String, Post> getUserposts() {
