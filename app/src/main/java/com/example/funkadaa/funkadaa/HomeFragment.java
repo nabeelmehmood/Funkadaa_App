@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
             User u = dataSnapshot.getValue(User.class);
-            HashMap<String,Post> h = (HashMap)u.getUserposts();
+            HashMap<String, Post> h = (HashMap) u.getUserposts();
             ArrayList<Post> p = new ArrayList<>();
             ArrayList<SingleHomeFeedItem> s = new ArrayList<>();
             if (h != null) {
@@ -67,7 +67,7 @@ public class HomeFragment extends Fragment {
                     s.add(s1);
                 }
             }
-            ad = new HomeAdapter(s,c);
+            ad = new HomeAdapter(s, c);
             rv = (RecyclerView) getView().findViewById(R.id.recyclerview);
             rv.setAdapter(ad);
             rv.setItemAnimator(new DefaultItemAnimator());
@@ -80,8 +80,39 @@ public class HomeFragment extends Fragment {
             rv.addItemDecoration(mDividerItemDecoration);
             // ...
         }
+    };
 
-        @Override
+        ValueEventListener followerListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                User u = dataSnapshot.getValue(User.class);
+                HashMap<String,Post> h = (HashMap)dataSnapshot.getValue();
+                ArrayList<SingleHomeFeedItem> s = new ArrayList<>();
+                if (h != null) {
+                    for (HashMap.Entry<String, Post> e : h.entrySet()) {
+                        // use e.getKey(), e.getValue()
+
+                        SingleHomeFeedItem s1 = new SingleHomeFeedItem(u, (String) e.getValue().getImageID(), (String) e.getValue().getImageID(), (String) e.getValue().getDescription(), (Date) e.getValue().getTime());
+                        s.add(s1);
+                    }
+                }
+                ad = new HomeAdapter(s,c);
+                rv = (RecyclerView) getView().findViewById(R.id.recyclerview);
+                rv.setAdapter(ad);
+                rv.setItemAnimator(new DefaultItemAnimator());
+                LinearLayoutManager mLayoutManager = new LinearLayoutManager(c);
+                rv.setLayoutManager(mLayoutManager);
+                DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
+                        rv.getContext(),
+                        mLayoutManager.getOrientation()
+                );
+                rv.addItemDecoration(mDividerItemDecoration);
+                // ...
+            }
+
+
+            @Override
         public void onCancelled(DatabaseError databaseError) {
             // Getting Post failed, log a message
             Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
@@ -97,8 +128,10 @@ public class HomeFragment extends Fragment {
 
         User u=new User();
         FirebaseUser f = FirebaseAuth.getInstance().getCurrentUser();
-        ref = FirebaseDatabase.getInstance().getReference().child("users").child(f.getUid());
+        ref = FirebaseDatabase.getInstance().getReference().child("posts").child(f.getUid());
         u.setName("Blah Blah ");
+        DatabaseReference ref2 = FirebaseDatabase.getInstance().getReference().child("posts");
+        ref2.addValueEventListener()
         ref.addValueEventListener(userListener);
         // String imageUrlItem, String imageUrlDp, String description, Date time
         c=getContext();
