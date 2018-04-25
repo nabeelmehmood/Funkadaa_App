@@ -1,6 +1,7 @@
 package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -94,6 +95,8 @@ public class UploadActivity extends AppCompatActivity {
                         ref.setValue(p);
                         ref = db.getReference().child("users").child(userid).child("userposts").child(id);
                         ref.setValue(p);
+                        Intent i = new Intent(c,MainActivity.class);
+
                     }
                 });
             }

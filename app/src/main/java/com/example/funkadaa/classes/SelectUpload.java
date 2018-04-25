@@ -135,9 +135,6 @@ public class SelectUpload extends DialogFragment {
             }
         }
 
-        String input = String.valueOf(u);
-        mOnInputListener.setimage(input);
-
 
 
 /*
