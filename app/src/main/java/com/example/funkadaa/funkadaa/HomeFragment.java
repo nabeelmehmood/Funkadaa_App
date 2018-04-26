@@ -56,7 +56,14 @@ public class HomeFragment extends Fragment {
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
             User u = dataSnapshot.getValue(User.class);
-            HashMap<String,Post> h = (HashMap)u.getUserposts();
+            HashMap<String,Post> h = null;
+            try {
+                if (u!= null && u.getUserposts() != null)
+                    h = (HashMap) u.getUserposts();
+            }
+            catch (NullPointerException e){
+                h = null;
+            }
             ArrayList<Post> p = new ArrayList<>();
             ArrayList<SingleHomeFeedItem> s = new ArrayList<>();
             if (h != null) {
