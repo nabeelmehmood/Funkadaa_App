@@ -75,16 +75,24 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/sign_in_facebook"
-                style="?android:textAppearanceSmall"
-                android:layout_width="match_parent"
+            <!--<Button-->
+                <!--android:id="@+id/sign_in_facebook"-->
+                <!--style="?android:textAppearanceSmall"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:background="#3b5998"-->
+                <!--android:text="sign in with facebook"-->
+                <!--android:textColor="@android:color/white"-->
+                <!--android:textStyle="bold" />-->
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="#3b5998"
-                android:text="sign in with facebook"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp" />
 
             <Button
                 android:id="@+id/sign_in_google"

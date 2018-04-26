@@ -30,7 +30,7 @@ public class FirstScreenActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
-
+        //mAuth.signOut();
         if(currentUser != null)
           updateUI(currentUser);
     }
