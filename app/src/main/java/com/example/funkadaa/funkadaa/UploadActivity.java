@@ -83,7 +83,7 @@ public class UploadActivity extends AppCompatActivity {
                         Uri downloadUrl = taskSnapshot.getDownloadUrl();
                         Post p = new Post();
                         p.setImageID(getid()+".jpg");
-                        p.setDescription("heres a picture");
+                        p.setDescription("RS-1000");
                         p.setLikes(0);
                         p.setUploaderID(userid);
                         Date d = new Date();

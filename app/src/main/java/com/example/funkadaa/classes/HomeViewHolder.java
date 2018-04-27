@@ -16,7 +16,6 @@ import java.util.Date;
 
 public class HomeViewHolder  extends RecyclerView.ViewHolder{
     ImageButton Like;
-    ImageButton Comment;
     ImageButton Save;
     ImageButton AddToCart;
     ImageView Image;
@@ -28,7 +27,6 @@ public class HomeViewHolder  extends RecyclerView.ViewHolder{
     public HomeViewHolder(View view) {
         super(view);
     Like=(ImageButton) view.findViewById(R.id.imageButton1);
-    Comment=(ImageButton)view.findViewById(R.id.imageButton2);
     Save=(ImageButton)view.findViewById(R.id.imageButton3);
     AddToCart=(ImageButton)view.findViewById(R.id.imageButton4);
     Image=(ImageView)view.findViewById(R.id.imageView);
