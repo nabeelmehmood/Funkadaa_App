@@ -30,7 +30,7 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "MainActivity";
 
     private static final int ERROR_DIALOG_REQUEST = 9001;
-
+    String userid;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -104,6 +104,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ImageView btn = (ImageView)getView().findViewById(R.id.imageView5);
+        userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -132,10 +133,9 @@ public class ProfileFragment extends Fragment {
             Uri photoUri = data.getData();
             if (photoUri != null) {
                 try {
-                    Intent i = new Intent(c,UploadActivity.class);
-
+                    Intent i = new Intent(c,UploadDpActivity.class);
+                    i.putExtra("userid", userid);
                     i.putExtra("uri",photoUri.toString());
-                    i.putExtra("user", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     startActivity(i);
                 } catch (Exception e) {
                     e.printStackTrace();

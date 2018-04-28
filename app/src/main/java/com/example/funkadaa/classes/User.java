@@ -18,6 +18,8 @@ public class User implements Serializable{
 
     String phone;
 
+    String dp;
+
     Map<String,Post> userposts;
 
     public Map<String, Post> getUserposts() {
