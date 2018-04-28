@@ -1,6 +1,7 @@
 package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,15 +74,11 @@ public class ProfileActivity extends AppCompatActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {
-
-//                startActivity(i);
-//
-//                F = new SearchItem();
-//                Bundle b = new Bundle();
-//                String postid = ad.getPostIDs().get(position);
-//                b.putString("postid", postid);
-//                F.setArguments(b);
-//                ChangeFrag();
+                String postid = ad.getPostIDs().get(position);
+                Intent i = new Intent(c,PostActivity.class);
+                i.putExtra("postid",postid);
+                startActivity(i);
+                
             }
         });
     }
