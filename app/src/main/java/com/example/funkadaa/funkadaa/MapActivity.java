@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.funkadaa.classes.ImageDownloaderAsync;
+import com.example.funkadaa.classes.ImageThumbnailDownloaderAsync;
 import com.example.funkadaa.classes.SearchAdapter;
 import com.example.funkadaa.classes.User;
 import com.example.funkadaa.models.PlaceAutocompleteAdapter;
@@ -37,6 +39,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.location.places.Places;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,10 +49,50 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.OnConnectionFailedListener{
+import static com.example.funkadaa.funkadaa.R.drawable.zain19;
+
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
+
+
+
+
+    class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        private final View myContentsView;
+
+        MyInfoWindowAdapter(){
+            myContentsView = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+
+            TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.title));
+            tvTitle.setText(marker.getTitle());
+            ImageView DP = ((ImageView)myContentsView.findViewById(R.id.imageView));
+
+            DP.setImageDrawable(getResources().getDrawable(R.drawable.starrynight));
+
+         //    new ImageDownloaderAsync(DP,myContentsView.getContext()).execute(dpurl);
+
+            return myContentsView;
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+    }
+
+
+
+
+
     @Override
     public void onMapReady(@Nullable GoogleMap googleMap) {
-        Toast.makeText(this, "Map is Ready", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "There you go :) ", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
         if (mLocationPermissionsGranted) {
@@ -78,13 +122,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private PlaceInfo mPlace;
     private static final float DEFAULT_ZOOM = 15f;
     String userid;
-    User u;
+    String username;
+    String dpurl;
 
     ValueEventListener userListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
-            u = dataSnapshot.getValue(User.class);
+             username = (String)dataSnapshot.child("name").getValue();
+             dpurl = (String)dataSnapshot.child("dp").getValue();
+
         }
 
         @Override
@@ -107,6 +154,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.maplayout);
         mInfo = (ImageView) findViewById(R.id.place_info);
+        FirebaseUser f = FirebaseAuth.getInstance().getCurrentUser();
+
+
+        userid= f.getUid();
+
+
+        DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
+        mref.addValueEventListener(userListener);
 
         getLocationPermission();
         mInfo.setOnClickListener(new View.OnClickListener() {
@@ -196,21 +251,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 
-                            userid = getIntent().getStringExtra("userid");
-                            DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
-                            mref.addValueEventListener(userListener);
-
-
-
-
-
-
-
-
-
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    DEFAULT_ZOOM,"My Location " +  u.getName().toString());
+                                    DEFAULT_ZOOM, username );
 
 
 
@@ -231,26 +274,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void moveCamera(LatLng latLng, float zoom,String title){
     Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
+    mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        if(title.equals("My Location")){
+
+       // if(title.equals("My Location"))
             MarkerOptions options = new MarkerOptions()
                     .position(latLng)
                     .title(title);
-
             mMarker=mMap.addMarker(options);
         }
-    }
+
     private void initMap(){
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(MapActivity.this);
-    }
-
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
 
