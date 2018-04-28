@@ -46,7 +46,6 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
                 case R.id.menu_search:
                     mTextMessage.setText("FunKadaa");
                     F= new SearchFragment();
-
                     ChangeFrag();
                     return true;
                 case R.id.navigation_notifications:
