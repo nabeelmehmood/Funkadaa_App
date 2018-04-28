@@ -1,5 +1,6 @@
 package com.example.funkadaa.classes;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ import java.util.Map;
  * Created by nabee on 4/25/2018.
  */
 
-public class Post {
+public class Post implements Serializable{
     String imageID;
     String description;
     String uploaderID;

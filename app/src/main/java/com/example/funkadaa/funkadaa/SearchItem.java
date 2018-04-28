@@ -1,6 +1,7 @@
 package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.funkadaa.classes.*;
 import com.example.funkadaa.classes.Post;
@@ -29,30 +31,39 @@ public class SearchItem extends Fragment {
     ImageView dp;
     ImageView image;
     Context c;
+    Bundle b;
 
     ValueEventListener postListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
-            com.example.funkadaa.classes.Post p = dataSnapshot.getValue(Post.class);
+            final com.example.funkadaa.classes.Post p = dataSnapshot.getValue(Post.class);
             desc = (TextView)getView().findViewById(R.id.searchitem_description);
             name = (TextView)getView().findViewById(R.id.searchitem_name);
             name2 = (TextView)getView().findViewById(R.id.searchitem_name1);
-            dp =(ImageView) getView().findViewById(R.id.searchitem_image);
+            dp =(ImageView) getView().findViewById(R.id.searchitem_dp);
 
             if (p != null) {
                 desc.setText(p.getDescription());
             }
 
             String id = p.getUploaderID();
-
+            dp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(c,"Loading profile",Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(c,ProfileActivity.class);
+                    i.putExtra("userid", p.getUploaderID());
+                    startActivity(i);
+                }
+            });
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id);
             ref.addValueEventListener(userListener);
 
             if (p != null) {
                 new ImageThumbnailDownloaderAsync(dp,c).execute(p.getImageID());
             }
-            image=(ImageView) getView().findViewById(R.id.searchitem_dp);
+            image=(ImageView) getView().findViewById(R.id.searchitem_image);
             if (p != null) {
                 new ImageDownloaderAsync(image,c).execute(p.getImageID());
             }
