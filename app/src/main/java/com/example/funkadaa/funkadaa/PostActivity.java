@@ -72,9 +72,7 @@ public class PostActivity extends AppCompatActivity {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id);
             ref.addValueEventListener(userListener);
 
-            if (p != null) {
-                new ImageThumbnailDownloaderAsync(dp,c).execute(p.getImageID());
-            }
+
             if (p != null) {
                 new ImageDownloaderAsync(image,c).execute(p.getImageID());
             }
@@ -94,8 +92,12 @@ public class PostActivity extends AppCompatActivity {
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
             String username = (String)dataSnapshot.child("name").getValue();
+            String url = (String)dataSnapshot.child("dp").getValue();
             name.setText(username);
             name2.setText(username);
+
+            new ImageThumbnailDownloaderAsync(dp,c).execute(url);
+
             // ...
         }
 

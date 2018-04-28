@@ -11,13 +11,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.funkadaa.classes.ImageThumbnailDownloaderAsync;
+import com.example.funkadaa.classes.SearchAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -30,6 +45,12 @@ public class ProfileFragment extends Fragment {
     private static final String TAG = "MainActivity";
 
     private static final int ERROR_DIALOG_REQUEST = 9001;
+    String userid;
+    ImageView btn;
+    DatabaseReference mref;
+    GridView gridview;
+    SearchAdapter ad;
+    Context c;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -38,7 +59,6 @@ public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         // Required empty public constructor
     }
-    Context c;
 
     /**
      * Use this factory method to create a new instance of
@@ -61,7 +81,8 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         c=getContext();
-
+        userid = getArguments().getString("userid");
+        mref = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -103,7 +124,13 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView btn = (ImageView)getView().findViewById(R.id.imageView5);
+        btn = (ImageView)getView().findViewById(R.id.imageView5);
+        userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        gridview = (GridView)getView().findViewById(R.id.gridview);
+        ad = new SearchAdapter(c);
+        gridview.setAdapter(ad);
+        mref.addValueEventListener(userListener);
+
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -122,6 +149,16 @@ public class ProfileFragment extends Fragment {
                 }
             }});
 
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v,
+                                    int position, long id) {
+                String postid = ad.getPostIDs().get(position);
+                Intent i = new Intent(c,PostActivity.class);
+                i.putExtra("postid",postid);
+                startActivity(i);
+
+            }
+        });
 
     }
     @Override
@@ -132,10 +169,9 @@ public class ProfileFragment extends Fragment {
             Uri photoUri = data.getData();
             if (photoUri != null) {
                 try {
-                    Intent i = new Intent(c,UploadActivity.class);
-
+                    Intent i = new Intent(c,UploadDpActivity.class);
+                    i.putExtra("userid", userid);
                     i.putExtra("uri",photoUri.toString());
-                    i.putExtra("user", FirebaseAuth.getInstance().getCurrentUser().getUid());
                     startActivity(i);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -143,4 +179,38 @@ public class ProfileFragment extends Fragment {
             }
         }
     }
+
+    ValueEventListener userListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            // Get Post object and use the values to update the UI
+            String username = (String)dataSnapshot.child("name").getValue();
+            ImageView dp = (ImageView)getView().findViewById(R.id.imageView5);
+            TextView name = (TextView)getView().findViewById(R.id.textView5);
+            name.setText(username);
+            String dpurl = (String)dataSnapshot.child("dp").getValue();
+            new ImageThumbnailDownloaderAsync(dp,c).execute(dpurl);
+
+            ArrayList<String> s = new ArrayList<>();
+            ArrayList<String> p = new ArrayList<>();
+            DataSnapshot postSnapshot = dataSnapshot.child("userposts");
+            for (DataSnapshot messageSnapshot: postSnapshot.getChildren()) {
+                String imageID = (String) messageSnapshot.child("imageID").getValue();
+                String postID = (String) messageSnapshot.getKey();
+                s.add(imageID);
+                p.add(postID);
+            }
+            ad.setImgIDs(s);
+            ad.setPostIDs(p);
+            ad.notifyDataSetChanged();
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            // Getting Post failed, log a message
+            Log.w("POSTS", "loadPost:onCancelled", databaseError.toException());
+            // ...
+        }
+    };
 }

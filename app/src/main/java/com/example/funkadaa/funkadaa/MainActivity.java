@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.funkadaa.classes.IMainActivity;
 import com.example.funkadaa.classes.SelectUpload;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -26,6 +27,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 public class MainActivity extends FragmentActivity implements IMainActivity {
     private static final String TAG = "PostFragment";
     private TextView mTextMessage;
+    String userid;
     Fragment F;
     private FirebaseAnalytics mFirebaseAnalytics;
     DatabaseReference mDatabase;
@@ -58,6 +60,9 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
                 case R.id.navigation_profile:
                     mTextMessage.setText("Profile");
                     F = new ProfileFragment();
+                    Bundle b = new Bundle();
+                    b.putString("userid",userid);
+                    F.setArguments(b);
                     ChangeFrag();
                     return true;
                 case R.id.Upload:
@@ -100,7 +105,7 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
 
-
+        userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
