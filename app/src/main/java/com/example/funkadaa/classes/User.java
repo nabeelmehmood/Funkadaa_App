@@ -20,6 +20,14 @@ public class User implements Serializable{
 
     String dp;
 
+    public String getDp() {
+        return dp;
+    }
+
+    public void setDp(String dp) {
+        this.dp = dp;
+    }
+
     Map<String,Post> userposts;
 
     public Map<String, Post> getUserposts() {

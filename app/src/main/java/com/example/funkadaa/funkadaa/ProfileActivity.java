@@ -2,15 +2,18 @@ package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.funkadaa.classes.ImageThumbnailDownloaderAsync;
 import com.example.funkadaa.classes.SearchAdapter;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +30,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView name;
     String userid;
     SearchAdapter ad;
+    ImageView dp;
 
     ValueEventListener userListener = new ValueEventListener() {
         @Override
@@ -34,6 +38,8 @@ public class ProfileActivity extends AppCompatActivity {
             // Get Post object and use the values to update the UI
             String username = (String)dataSnapshot.child("name").getValue();
             name.setText(username);
+            String dpurl = (String)dataSnapshot.child("dp").getValue();
+            new ImageThumbnailDownloaderAsync(dp,c).execute(dpurl);
 
             ArrayList<String> s = new ArrayList<>();
             ArrayList<String> p = new ArrayList<>();
@@ -70,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
         name = (TextView)findViewById(R.id.profilename);
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
         mref.addValueEventListener(userListener);
-
+        dp = (ImageView)findViewById(R.id.profileimage);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,
                                     int position, long id) {

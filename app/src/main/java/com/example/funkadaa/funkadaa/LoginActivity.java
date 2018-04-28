@@ -190,6 +190,7 @@ public class LoginActivity extends AppCompatActivity {
         u.setName(name);
         FirebaseDatabase.getInstance().getReference().child("users").child(id).child("name").setValue(u.getName());
         FirebaseDatabase.getInstance().getReference().child("users").child(id).child("id").setValue(u.getId());
+        FirebaseDatabase.getInstance().getReference().child("users").child(id).child("dp").setValue("default.jpg");
 
     }
 

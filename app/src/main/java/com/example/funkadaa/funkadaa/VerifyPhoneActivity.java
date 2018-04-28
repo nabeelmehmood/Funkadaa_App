@@ -135,7 +135,7 @@ public class VerifyPhoneActivity extends AppCompatActivity {
 
                             FirebaseUser user = task.getResult().getUser();
                             // ...
-
+                            u.setDp("default.jpg");
                             db.child("users").child(user.getUid()).setValue(u);
                             String password = getIntent().getStringExtra("password");
                             AuthCredential credential = EmailAuthProvider.getCredential(u.getEmail(), password);
