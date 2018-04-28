@@ -18,18 +18,25 @@ import android.widget.Toast;
 
 import com.example.funkadaa.classes.IMainActivity;
 import com.example.funkadaa.classes.SelectUpload;
+import com.example.funkadaa.classes.User;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class MainActivity extends FragmentActivity implements IMainActivity {
     private static final String TAG = "PostFragment";
+    User curruser;
     private TextView mTextMessage;
     Fragment F;
     private FirebaseAnalytics mFirebaseAnalytics;
     DatabaseReference mDatabase;
     String imageuri;
+    Bundle b;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -40,12 +47,14 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
                 case R.id.navigation_home:
                     mTextMessage.setText("FunKadaa");
                     F = new HomeFragment();
+                    F.setArguments(b);
                     ChangeFrag();
                     return true;
 
                 case R.id.menu_search:
                     mTextMessage.setText("FunKadaa");
                     F= new SearchFragment();
+                    F.setArguments(b);
 
                     ChangeFrag();
                     return true;
@@ -58,6 +67,8 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
                 case R.id.navigation_profile:
                     mTextMessage.setText("Profile");
                     F = new ProfileFragment();
+                    F.setArguments(b);
+
                     ChangeFrag();
                     return true;
                 case R.id.Upload:
@@ -93,6 +104,16 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
         mDatabase=null;
     }
 
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        curruser = new User();
+        curruser =(User) getIntent().getSerializableExtra("user");
+        curruser.getUserposts();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -102,6 +123,8 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
 
 
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         mTextMessage = (TextView) findViewById(R.id.message);

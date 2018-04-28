@@ -32,7 +32,8 @@ public class FirstScreenActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //mAuth.signOut();
         if(currentUser != null)
-          updateUI(currentUser);
+
+            updateUI(currentUser);
     }
 
     @Override
@@ -46,7 +47,7 @@ public class FirstScreenActivity extends AppCompatActivity {
 
     protected void updateUI(FirebaseUser u){
         if (u != null){
-            Intent i = new Intent(this, MainActivity.class);
+            Intent i = new Intent(this, LoginActivity.class);
             i.putExtra("user", u);
             startActivity(i);
         }
