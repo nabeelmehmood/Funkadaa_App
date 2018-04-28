@@ -14,7 +14,9 @@ import java.util.Date;
 
 public class SearchAdapter extends BaseAdapter {
     private Context mContext;
-    private ArrayList<GridViewItem> s;
+
+
+    SingleHomeFeedItem s ;
 
     // references to our images
     private Integer[] mThumbIds = {
@@ -33,10 +35,6 @@ public class SearchAdapter extends BaseAdapter {
     public SearchAdapter(Context c) {
         mContext = c;
 
-    }
-    public SearchAdapter(Context c,ArrayList<GridViewItem> s) {
-        mContext = c;
-        this.s = s;
     }
 
     public int getCount() {
@@ -64,7 +62,8 @@ public class SearchAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        new ImageDownloaderAsync(imageView,mContext).execute(s.get(position).getImgurl());
+
+        imageView.setImageResource(mThumbIds[position]);
         return imageView;
     }
 
