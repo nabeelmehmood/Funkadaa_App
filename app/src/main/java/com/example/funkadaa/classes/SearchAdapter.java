@@ -63,7 +63,7 @@ public class SearchAdapter extends BaseAdapter {
         }
 
 
-        imageView.setImageResource(mThumbIds[position]);
+        new ImageDownloaderAsync(imageView,mContext).execute("f0e187bb-f292-44c9-a7f1-4f8d3d4e029f.jpg");
         return imageView;
     }
 
