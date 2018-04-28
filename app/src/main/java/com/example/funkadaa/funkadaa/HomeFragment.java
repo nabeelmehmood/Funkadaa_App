@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment {
     ArrayList<SingleHomeFeedItem> list;
     Context c;
     DatabaseReference ref;
-    User curruser;
+
 
 
 
@@ -101,9 +101,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        curruser = new User();
-        curruser =(User) getArguments().getSerializable("curruser");
-        ref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser.getId());
+
+        User u=new User();
+        FirebaseUser f = FirebaseAuth.getInstance().getCurrentUser();
+        ref = FirebaseDatabase.getInstance().getReference().child("users").child(f.getUid());
+        u.setName("Blah Blah ");
         ref.addValueEventListener(userListener);
         // String imageUrlItem, String imageUrlDp, String description, Date time
         c=getContext();

@@ -112,7 +112,7 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(photoPickerIntent, 1);
             }
         });
-        Button btn2=(Button)getView().findViewById(R.id.inituser);
+        Button btn2=(Button)getView().findViewById(R.id.button7);
 
         btn2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) {
