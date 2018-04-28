@@ -83,7 +83,7 @@ public class ImageThumbnailDownloaderAsync extends AsyncTask<String, Void, Void>
                             options.inJustDecodeBounds = true;
                             BitmapFactory.decodeStream(imageStream, null, options);
                             // The new size we want to scale to
-                            final int REQUIRED_SIZE = 20;
+                            final int REQUIRED_SIZE = 100;
 
                             // Find the correct scale value. It should be the power of 2.
                             int scale = 1;
@@ -152,7 +152,7 @@ public class ImageThumbnailDownloaderAsync extends AsyncTask<String, Void, Void>
                     String imageType = options.outMimeType;
 
                     // The new size we want to scale to
-                    final int REQUIRED_SIZE = 20;
+                    final int REQUIRED_SIZE = 100;
 
                     // Find the correct scale value. It should be the power of 2.
                     int scale = 1;

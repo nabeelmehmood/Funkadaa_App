@@ -88,7 +88,7 @@ public class ImageDownloaderAsync extends AsyncTask<String, Void, Void> {
                         String imageType = options.outMimeType;
                         imageStream.reset();
                         // The new size we want to scale to
-                        final int REQUIRED_SIZE = 200;
+                        final int REQUIRED_SIZE = 300;
 
                         // Find the correct scale value. It should be the power of 2.
                         int scale = 1;
@@ -177,7 +177,7 @@ public class ImageDownloaderAsync extends AsyncTask<String, Void, Void> {
             bmp = BitmapFactory.decodeStream(fis, null, o);
 
             // The new size we want to scale to
-            final int REQUIRED_SIZE = 130;
+            final int REQUIRED_SIZE = 300;
 
             // Find the correct scale value. It should be the power of 2.
             int scale = 1;

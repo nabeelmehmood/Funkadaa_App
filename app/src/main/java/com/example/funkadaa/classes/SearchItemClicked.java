@@ -14,20 +14,20 @@ public class SearchItemClicked extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_feed);
-        TextView tv1=(TextView)findViewById(R.id.textView);
+        TextView tv1=(TextView)findViewById(R.id.searchitem_name);
         tv1.setText("Hi");
 
-        TextView tv2=(TextView)findViewById(R.id.textView2);
+        TextView tv2=(TextView)findViewById(R.id.searchitem_name);
         tv2.setText("Hi");
 
-        TextView tv3=(TextView)findViewById(R.id.textView3);
+        TextView tv3=(TextView)findViewById(R.id.searchitem_description);
         tv3.setText("Hi");
 
-        ImageView imageView=(ImageView) findViewById(R.id.imageView);
+        ImageView imageView=(ImageView) findViewById(R.id.searchitem_image);
         imageView.setImageResource(R.drawable.zain1);
 
 
-        ImageView imageView2=(ImageView) findViewById(R.id.imageView2);
+        ImageView imageView2=(ImageView) findViewById(R.id.searchitem_dp);
         imageView.setImageResource(R.drawable.zain19);
 
     }
