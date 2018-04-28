@@ -3,7 +3,6 @@ package com.example.funkadaa.classes;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import com.example.funkadaa.funkadaa.R;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class HomeViewHolder  extends RecyclerView.ViewHolder{
     ImageButton Like;
@@ -29,11 +27,11 @@ public class HomeViewHolder  extends RecyclerView.ViewHolder{
     Like=(ImageButton) view.findViewById(R.id.imageButton1);
     Save=(ImageButton)view.findViewById(R.id.imageButton3);
     AddToCart=(ImageButton)view.findViewById(R.id.imageButton4);
-    Image=(ImageView)view.findViewById(R.id.imageView);
-    Dp=(ImageView)view.findViewById(R.id.imageView2);
-    Name1=(TextView)view.findViewById(R.id.textView);
-    Name2=(TextView)view.findViewById(R.id.textView2);
-    Description=(TextView)view.findViewById(R.id.textView3);
+    Image=(ImageView)view.findViewById(R.id.searchitem_image);
+    Dp=(ImageView)view.findViewById(R.id.searchitem_dp);
+    Name1=(TextView)view.findViewById(R.id.searchitem_name);
+    Name2=(TextView)view.findViewById(R.id.searchitem_name);
+    Description=(TextView)view.findViewById(R.id.searchitem_description);
 
     }
     public void setValues(SingleHomeFeedItem S, Context c){

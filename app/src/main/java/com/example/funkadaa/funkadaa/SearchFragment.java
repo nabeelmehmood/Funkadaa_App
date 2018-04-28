@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class SearchFragment extends Fragment {
@@ -49,8 +50,18 @@ public class SearchFragment extends Fragment {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
-            Log.e("POSTS",dataSnapshot.getValue().toString());
-            JSONObject j = (JSONObject)dataSnapshot.getValue();
+            ArrayList<String> s = new ArrayList<>();
+            ArrayList<String> p = new ArrayList<>();
+            for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                String imageID = (String) messageSnapshot.child("imageID").getValue();
+                String postID = (String) messageSnapshot.getKey();
+                s.add(imageID);
+                p.add(postID);
+            }
+            ad.setImgIDs(s);
+            ad.setPostIDs(p);
+            ad.notifyDataSetChanged();
+
             // ...
         }
 
@@ -72,7 +83,6 @@ public class SearchFragment extends Fragment {
         c = getContext();
         ad = new SearchAdapter(c);
         mRef = FirebaseDatabase.getInstance().getReference().child("posts");
-        mRef.addValueEventListener(postListener);
         return inflater.inflate(R.layout.fragment_search, container, false);
     }
     void  ChangeFrag() {
@@ -89,7 +99,7 @@ public class SearchFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         gridview = (GridView) getView().findViewById(R.id.gridview);
-
+        mRef.addValueEventListener(postListener);
         gridview.setAdapter(ad);
 
         //SingleHomeFeedItem(User u, String imageUrlItem, String imageUrlDp, String description, Date time)
@@ -108,6 +118,10 @@ public class SearchFragment extends Fragment {
                // startActivity(intent);
 
                 F = new SearchItem();
+                Bundle b = new Bundle();
+                String postid = ad.getPostIDs().get(position);
+                b.putString("postid", postid);
+                F.setArguments(b);
                 ChangeFrag();
             }
         });

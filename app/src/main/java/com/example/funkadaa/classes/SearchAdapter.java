@@ -14,9 +14,23 @@ import java.util.Date;
 
 public class SearchAdapter extends BaseAdapter {
     private Context mContext;
-
+    ArrayList<String> imgIDs;
+    ArrayList<String> postIDs;
+    public SearchAdapter(Context mContext, ArrayList<String> imgIDs) {
+        this.mContext = mContext;
+        this.imgIDs = imgIDs;
+        postIDs=new ArrayList<>();
+    }
 
     SingleHomeFeedItem s ;
+
+    public ArrayList<String> getImgIDs() {
+        return imgIDs;
+    }
+
+    public void setImgIDs(ArrayList<String> imgIDs) {
+        this.imgIDs = imgIDs;
+    }
 
     // references to our images
     private Integer[] mThumbIds = {
@@ -32,13 +46,23 @@ public class SearchAdapter extends BaseAdapter {
             R.drawable.zain9, R.drawable.zain10,
   */  };
 
+    public ArrayList<String> getPostIDs() {
+        return postIDs;
+    }
+
+    public void setPostIDs(ArrayList<String> postIDs) {
+        this.postIDs = postIDs;
+    }
+
     public SearchAdapter(Context c) {
         mContext = c;
+        imgIDs = new ArrayList<>();
+        postIDs=new ArrayList<>();
 
     }
 
     public int getCount() {
-        return mThumbIds.length;
+        return imgIDs.size();
     }
 
     public Object getItem(int position) {
@@ -63,7 +87,7 @@ public class SearchAdapter extends BaseAdapter {
         }
 
 
-        new ImageDownloaderAsync(imageView,mContext).execute("f0e187bb-f292-44c9-a7f1-4f8d3d4e029f.jpg");
+        new ImageDownloaderAsync(imageView,mContext).execute(imgIDs.get(position));
         return imageView;
     }
 
