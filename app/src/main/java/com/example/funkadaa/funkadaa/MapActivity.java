@@ -12,8 +12,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.funkadaa.classes.SearchAdapter;
+import com.example.funkadaa.classes.User;
 import com.example.funkadaa.models.PlaceAutocompleteAdapter;
 import com.example.funkadaa.models.PlaceInfo;
 import com.google.android.gms.common.ConnectionResult;
@@ -34,6 +37,13 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.location.places.Places;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,GoogleApiClient.OnConnectionFailedListener{
     @Override
@@ -67,7 +77,31 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private PlaceInfo mPlace;
     private static final float DEFAULT_ZOOM = 15f;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
+    String userid;
+    User u;
+
+    ValueEventListener userListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            // Get Post object and use the values to update the UI
+            u = dataSnapshot.getValue(User.class);
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            // Getting Post failed, log a message
+            Log.w("POSTS", "loadPost:onCancelled", databaseError.toException());
+            // ...
+        }
+    };
+
+
+
+
+
+
+
+        private FusedLocationProviderClient mFusedLocationProviderClient;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,8 +194,23 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
 
+
+
+                            userid = getIntent().getStringExtra("userid");
+                            DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
+                            mref.addValueEventListener(userListener);
+
+
+
+
+
+
+
+
+
+
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    DEFAULT_ZOOM,"My Location");
+                                    DEFAULT_ZOOM,"My Location " +  u.getName().toString());
 
 
 
