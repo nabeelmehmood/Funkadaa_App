@@ -20,14 +20,12 @@ import java.text.SimpleDateFormat;
 
 public class FollowNotificationHolder extends MyNotificationViewHolder {
 
-    Button followButton;
 
     public FollowNotificationHolder(View view) {
         super(view);
         image = (ImageView) view.findViewById(R.id.follownotification_image);
         notif = (TextView) view.findViewById(R.id.follownotification_string);
         date = (TextView) view.findViewById(R.id.follownotification_date);
-        followButton = (Button) view.findViewById(R.id.follownotification_button);
     }
 
     public void setValues(MyNotification notification, Context c){
@@ -37,7 +35,6 @@ public class FollowNotificationHolder extends MyNotificationViewHolder {
         notif.setText(notification.getNotif());
         DateFormat df3 = new SimpleDateFormat("dd-MMM-yyyy");
         date.setText(df3.format(notification.getTime()));
-        followButton.setVisibility(View.VISIBLE);
 
     }
 
