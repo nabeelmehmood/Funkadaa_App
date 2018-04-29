@@ -34,6 +34,7 @@ public class FirstScreenActivity extends AppCompatActivity {
         //mAuth.signOut();
         if(currentUser != null)
           updateUI(currentUser);
+
     }
 
     @Override
