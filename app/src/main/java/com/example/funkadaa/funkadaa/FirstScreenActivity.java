@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 
+import com.google.android.gms.ads.MobileAds;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -28,11 +29,12 @@ public class FirstScreenActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         mAuth = FirebaseAuth.getInstance();
-
+        MobileAds.initialize(this, "ca-app-pub-2509527130298191~8086187127");
         FirebaseUser currentUser = mAuth.getCurrentUser();
         //mAuth.signOut();
         if(currentUser != null)
           updateUI(currentUser);
+
     }
 
     @Override

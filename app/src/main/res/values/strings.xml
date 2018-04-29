@@ -14,7 +14,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_login">Sign in</string>
-
+    <string name="web_client_id">113491668536-i64qoefqsc5h7l1c66t154kt4i6ebnn7.apps.googleusercontent.com</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
