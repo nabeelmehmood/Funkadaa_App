@@ -3,11 +3,13 @@ package com.example.funkadaa.funkadaa;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,8 +36,10 @@ import com.google.firebase.database.ValueEventListener;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class ProfileFragment extends Fragment {
@@ -48,7 +52,7 @@ public class ProfileFragment extends Fragment {
     private static final int ERROR_DIALOG_REQUEST = 9001;
     String userid;
     ImageView btn;
-    TextToSpeech ts;
+
     DatabaseReference mref;
     GridView gridview;
     SearchAdapter ad;
@@ -97,7 +101,7 @@ public class ProfileFragment extends Fragment {
         }
     }
 
-
+    TextView tv;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -128,11 +132,25 @@ public class ProfileFragment extends Fragment {
         return false;
     }
 
+    public void getSpeechInput(View view) {
+
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(intent, 007);
+        } else {
+            Toast.makeText(getContext(), "Your Device Don't Support Speech Input", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btn = (ImageView)getView().findViewById(R.id.imageView5);
+
+
         userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         gridview = (GridView)getView().findViewById(R.id.gridview);
         ad = new SearchAdapter(c);
@@ -155,6 +173,10 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(photoPickerIntent, 1);
             }
         });
+
+
+
+
         Button btn2=(Button)getView().findViewById(R.id.button7);
 
         btn2.setOnClickListener(new View.OnClickListener(){
@@ -182,8 +204,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (resultCode == RESULT_OK) {
+         if (resultCode == RESULT_OK) {
             Uri photoUri = data.getData();
             if (photoUri != null) {
                 try {
@@ -194,9 +215,14 @@ public class ProfileFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }
+            }}
+
+
         }
-    }
+
+
+
+
 
     ValueEventListener userListener = new ValueEventListener() {
         @Override

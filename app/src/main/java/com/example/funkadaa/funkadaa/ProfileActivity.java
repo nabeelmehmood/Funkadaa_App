@@ -2,6 +2,7 @@ package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 import com.example.funkadaa.classes.FollowNotification;
 import com.example.funkadaa.classes.ImageThumbnailDownloaderAsync;
 import com.example.funkadaa.classes.SearchAdapter;
+import com.example.funkadaa.classes.SelectUpload;
 import com.example.funkadaa.classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,11 +35,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ProfileActivity extends AppCompatActivity  implements SensorEventListener{
-
+    private static final String TAG = "PostFragmentvia profile";
     Context c;
     GridView gridView;
     TextView name;
@@ -103,7 +106,6 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
             // ...
         }
     };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
