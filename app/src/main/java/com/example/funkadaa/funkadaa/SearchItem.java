@@ -2,6 +2,7 @@ package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -43,7 +44,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
     Bundle b;
     String curruser;
     private SensorManager mSensorManager;
-    private Sensor mProximity;
+    private Sensor Gyro;
     private static final int SENSOR_SENSITIVITY = 4;
 
     ValueEventListener postListener = new ValueEventListener() {
@@ -124,7 +125,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
         mref = FirebaseDatabase.getInstance().getReference().child("posts").child(id);
         c = getContext();
         mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
-        mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        Gyro =mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         curruser = FirebaseAuth.getInstance().getUid();
         return inflater.inflate(R.layout.fragment_search_item, container, false);
 
@@ -133,7 +134,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
     @Override
     public void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, Gyro, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -155,16 +156,10 @@ public class SearchItem extends Fragment implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
-            if (event.values[0] >= -SENSOR_SENSITIVITY && event.values[0] <= SENSOR_SENSITIVITY) {
-                //near
-                Toast.makeText(getApplicationContext(), "near", Toast.LENGTH_SHORT).show();
-
-                
-            } else {
-                //far
-                Toast.makeText(getApplicationContext(), "far", Toast.LENGTH_SHORT).show();
-            }
+        if(event.values[2] > 0.5f) { // anticlockwise
+            getView().findViewById(R.id.cid).setBackgroundColor(Color.BLACK);
+        } else if(event.values[2] < -0.5f) { // clockwise
+            getView().findViewById(R.id.cid).setBackgroundColor(Color.WHITE);
         }
     }
 

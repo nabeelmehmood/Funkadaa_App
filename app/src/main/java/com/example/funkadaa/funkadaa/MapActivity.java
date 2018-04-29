@@ -54,7 +54,7 @@ import static com.example.funkadaa.funkadaa.R.drawable.zain19;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
 
 
-
+    ImageView DP;
 
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
@@ -70,11 +70,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.title));
             tvTitle.setText(marker.getTitle());
 
-            ImageView DP = ((ImageView)myContentsView.findViewById(R.id.imageView));
+            DP = ((ImageView)myContentsView.findViewById(R.id.imageView));
 
-            DP.setImageDrawable(getResources().getDrawable(R.drawable.starrynight));
+      //      DP.setImageDrawable(getResources().getDrawable(R.drawable.starrynight));
 
-         //    new ImageDownloaderAsync(DP,myContentsView.getContext()).execute(dpurl);
+            new ImageDownloaderAsync(DP,myContentsView.getContext()).execute(dpurl);
 
             return myContentsView;
         }
