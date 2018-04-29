@@ -8,13 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.Image;
-<<<<<<< HEAD
-import android.speech.RecognizerIntent;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-=======
 import android.speech.tts.TextToSpeech;
->>>>>>> 133ca70a0a33fbcb8e9d422a444311ad80066b4f
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -113,15 +107,6 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
         }
     };
 
-
-<<<<<<< HEAD
-
-
-
-
-
-=======
->>>>>>> 133ca70a0a33fbcb8e9d422a444311ad80066b4f
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

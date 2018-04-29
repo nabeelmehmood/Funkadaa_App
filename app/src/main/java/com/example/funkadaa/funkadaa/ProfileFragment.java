@@ -6,11 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-<<<<<<< HEAD
-import android.speech.RecognizerIntent;
-=======
-import android.speech.tts.TextToSpeech;
->>>>>>> 133ca70a0a33fbcb8e9d422a444311ad80066b4f
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -57,11 +52,7 @@ public class ProfileFragment extends Fragment {
     private static final int ERROR_DIALOG_REQUEST = 9001;
     String userid;
     ImageView btn;
-<<<<<<< HEAD
-    Button Ibtn2;
-=======
-    TextToSpeech ts;
->>>>>>> 133ca70a0a33fbcb8e9d422a444311ad80066b4f
+
     DatabaseReference mref;
     GridView gridview;
     SearchAdapter ad;
