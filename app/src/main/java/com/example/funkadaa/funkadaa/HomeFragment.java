@@ -104,7 +104,6 @@ public class HomeFragment extends Fragment {
             // Getting Post failed, log a message
             Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
             // ...
-            
         }
     };
 
