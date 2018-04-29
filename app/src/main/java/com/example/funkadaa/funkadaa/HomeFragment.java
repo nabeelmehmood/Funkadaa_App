@@ -46,8 +46,7 @@ public class HomeFragment extends Fragment {
     ArrayList<SingleHomeFeedItem> list;
     Context c;
     DatabaseReference ref;
-
-
+    
 
 
 
