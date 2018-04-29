@@ -46,6 +46,11 @@ public class HomeFragment extends Fragment {
     ArrayList<SingleHomeFeedItem> list;
     Context c;
     DatabaseReference ref;
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> parent of 21cd6bd... test
 
 
 
