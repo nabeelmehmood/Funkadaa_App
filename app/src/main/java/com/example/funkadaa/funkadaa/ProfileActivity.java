@@ -129,7 +129,6 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
                     DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser);
                     mref.child("following").child(userid).setValue("true");
                     Toast.makeText(c,"User followed",Toast.LENGTH_SHORT).show();
-                    follow.setEnabled(false);
                     isfollow=true;
                     DatabaseReference curruserref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser);
                     curruserref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -147,6 +146,7 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
                                 Date t = new Date();
                                 FollowNotification f = new FollowNotification(u, notif, dp, t);
                                 notref.child(key).setValue(f);
+                                follow.setEnabled(false);
 
                             }
                         }

@@ -22,6 +22,8 @@ import com.example.funkadaa.classes.MyNotificationViewHolder;
 import com.example.funkadaa.classes.Post;
 import com.example.funkadaa.classes.SingleHomeFeedItem;
 import com.example.funkadaa.classes.User;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +51,7 @@ public class HomeFragment extends Fragment {
     Context c;
     DatabaseReference ref;
     ArrayList<String> userids;
-
+    private AdView mAdView;
 
 
     ValueEventListener followerPostsListener = new ValueEventListener() {
@@ -143,6 +145,9 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mAdView = getView().findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         rv = (RecyclerView) getView().findViewById(R.id.recyclerview);
         rv.setAdapter(ad);
         rv.setItemAnimator(new DefaultItemAnimator());
