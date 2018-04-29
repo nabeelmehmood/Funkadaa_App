@@ -144,30 +144,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onSuccess(LoginResult loginResult) {
                         handleFacebookAccessToken(loginResult.getAccessToken());
                         final AccessToken accessToken = loginResult.getAccessToken();
-                        GraphRequest request = GraphRequest.newGraphPathRequest(
-                                accessToken,
-                                "/"+accessToken.getUserId(),
-                                new GraphRequest.Callback() {
-                                    @Override
-                                    public void onCompleted(GraphResponse response) {
-                                        // Insert your code here
-                                        JSONObject j = response.getJSONObject();
-                                        try {
-                                            String id = accessToken.getUserId();
-                                            String name = j.getString("name");
-                                            setUser(mAuth.getUid(),name);
-
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-
-
-                                });
-
-
-                        request.executeAsync();
-
 
                     }
 
@@ -205,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleFacebookAccessToken(AccessToken token) {
         Log.d("FACEBOOK", "handleFacebookAccessToken:" + token);
-
+        final AccessToken accessToken = token;
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -214,9 +190,33 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("FACEBOOK", "signInWithCredential:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            final FirebaseUser user = mAuth.getCurrentUser();
+                            GraphRequest request = GraphRequest.newGraphPathRequest(
+                                    accessToken,
+                                    "/"+accessToken.getUserId(),
+                                    new GraphRequest.Callback() {
+                                        @Override
+                                        public void onCompleted(GraphResponse response) {
+                                            // Insert your code here
+                                            JSONObject j = response.getJSONObject();
+                                            try {
+                                                String id = accessToken.getUserId();
+                                                String name = j.getString("name");
+                                                setUser(mAuth.getUid(),name);
+                                                updateUI(user);
 
-                            updateUI(user);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+
+
+                                    });
+
+
+                            request.executeAsync();
+
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("FACEBOOK", "signInWithCredential:failure", task.getException());

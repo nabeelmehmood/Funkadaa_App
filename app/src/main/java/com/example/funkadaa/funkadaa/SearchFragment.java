@@ -26,6 +26,8 @@ import com.example.funkadaa.classes.SearchAdapter;
 import com.example.funkadaa.classes.SearchItemClicked;
 import com.example.funkadaa.classes.SingleHomeFeedItem;
 import com.example.funkadaa.classes.User;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +46,7 @@ public class SearchFragment extends Fragment {
     Context c;
     Fragment F;
     DatabaseReference mRef;
+    AdView mAdView;
 
 
     ValueEventListener postListener = new ValueEventListener() {
@@ -97,7 +100,9 @@ public class SearchFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        mAdView = getView().findViewById(R.id.adView2);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
         gridview = (GridView) getView().findViewById(R.id.gridview);
         mRef.addValueEventListener(postListener);
         gridview.setAdapter(ad);
