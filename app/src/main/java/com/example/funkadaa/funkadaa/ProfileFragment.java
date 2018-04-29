@@ -130,15 +130,7 @@ public class ProfileFragment extends Fragment {
         ad = new SearchAdapter(c);
         gridview.setAdapter(ad);
         mref.addValueEventListener(userListener);
-        Button signout = (Button)getView().findViewById(R.id.signoutbutton);
-        signout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent i = new Intent(c,FirstScreenActivity.class);
-                startActivity(i);
-            }
-        });
+
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -169,8 +161,6 @@ public class ProfileFragment extends Fragment {
         });
 
     }
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

@@ -7,14 +7,33 @@ import java.util.Date;
  */
 
 public class FollowNotification extends MyNotification {
+    boolean followed;
 
     public FollowNotification() {
 
     }
 
+    public FollowNotification(boolean followed) {
 
-    public FollowNotification(User user, String notif, String imageUrl, Date time) {
-        super(user, notif, imageUrl, time);
+        this.followed = followed;
     }
 
+    public FollowNotification(User user, String notif, String image, Date time, boolean followed) {
+        super(user, notif, image, time);
+        this.followed = followed;
+    }
+
+    public boolean isFollowed() {
+        return followed;
+    }
+
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
+    }
+
+    public FollowNotification(User user, boolean followed) {
+        super(user);
+        this.followed = followed;
+
+    }
 }
