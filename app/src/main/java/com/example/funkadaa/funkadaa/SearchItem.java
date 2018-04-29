@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,7 +34,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class SearchItem extends Fragment implements SensorEventListener {
-
+    TextToSpeech ts;
     DatabaseReference mref;
     TextView desc;
     TextView name;
@@ -95,6 +96,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
             String username = (String)dataSnapshot.child("name").getValue();
+            ts.speak(username,TextToSpeech.QUEUE_FLUSH,null);
             name.setText(username);
             name2.setText(username);
             new ImageThumbnailDownloaderAsync(dp,c).execute((String)dataSnapshot.child("dp").getValue());
@@ -121,6 +123,12 @@ public class SearchItem extends Fragment implements SensorEventListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        ts=new TextToSpeech(getContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+
+            }
+        });
         String id = getArguments().getString("postid");
         mref = FirebaseDatabase.getInstance().getReference().child("posts").child(id);
         c = getContext();

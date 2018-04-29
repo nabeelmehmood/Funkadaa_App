@@ -2,11 +2,19 @@ package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.Image;
+<<<<<<< HEAD
+import android.speech.RecognizerIntent;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+=======
+import android.speech.tts.TextToSpeech;
+>>>>>>> 133ca70a0a33fbcb8e9d422a444311ad80066b4f
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +29,7 @@ import android.widget.Toast;
 import com.example.funkadaa.classes.FollowNotification;
 import com.example.funkadaa.classes.ImageThumbnailDownloaderAsync;
 import com.example.funkadaa.classes.SearchAdapter;
+import com.example.funkadaa.classes.SelectUpload;
 import com.example.funkadaa.classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,11 +41,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class ProfileActivity extends AppCompatActivity  implements SensorEventListener{
-
+    private static final String TAG = "PostFragmentvia profile";
     Context c;
     GridView gridView;
     TextView name;
@@ -58,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
             // Get Post object and use the values to update the UI
             String username = (String)dataSnapshot.child("name").getValue();
             name.setText(username);
+
             dpurl = (String)dataSnapshot.child("dp").getValue();
             new ImageThumbnailDownloaderAsync(dp,c).execute(dpurl);
 
@@ -102,11 +113,21 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
         }
     };
 
+
+<<<<<<< HEAD
+
+
+
+
+
+=======
+>>>>>>> 133ca70a0a33fbcb8e9d422a444311ad80066b4f
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         c=this;
+
         mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
         mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         gridView = (GridView)findViewById(R.id.gridview);
