@@ -28,10 +28,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -46,46 +48,55 @@ public class HomeFragment extends Fragment {
     ArrayList<SingleHomeFeedItem> list;
     Context c;
     DatabaseReference ref;
+    ArrayList<String> userids;
 
 
 
+    ValueEventListener followerPostsListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            ArrayList<SingleHomeFeedItem> s = new ArrayList<>();
 
+            if (dataSnapshot.exists()){
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    for (int i = 0; i < userids.size(); i++){
+                        if (messageSnapshot.getKey().equals(userids.get(i))){
+                            for (DataSnapshot posts: messageSnapshot.child("userposts").getChildren()){
+                                Post p = posts.getValue(Post.class);
+                                s.add(new SingleHomeFeedItem(messageSnapshot.getValue(User.class),p.getImageID(),messageSnapshot.child("dp").getValue().toString(),p.getDescription(),p.getTime()));
+                            }
+                        }
+                    }
+                }
+                
+                Collections.shuffle(s);
 
-    ValueEventListener userListener = new ValueEventListener() {
+                list = s;
+                ad = new HomeAdapter(list,c);
+                rv.setAdapter(ad);
+            }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
+
+    ValueEventListener followerListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
-            User u = dataSnapshot.getValue(User.class);
-            HashMap<String,Post> h = null;
-            try {
-                if (u!= null && u.getUserposts() != null)
-                    h = (HashMap) u.getUserposts();
-            }
-            catch (NullPointerException e){
-                h = null;
-            }
-            ArrayList<Post> p = new ArrayList<>();
-            ArrayList<SingleHomeFeedItem> s = new ArrayList<>();
-            if (h != null) {
-                for (HashMap.Entry<String, Post> e : h.entrySet()) {
-                    // use e.getKey(), e.getValue()
-                    p.add(e.getValue());
-                    SingleHomeFeedItem s1 = new SingleHomeFeedItem(u, (String) e.getValue().getImageID(), (String) e.getValue().getImageID(), (String) e.getValue().getDescription(), (Date) e.getValue().getTime());
-                    s.add(s1);
+            userids = new ArrayList<>();
+            list = new ArrayList<>();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    userids.add(messageSnapshot.getKey());
                 }
             }
-            ad = new HomeAdapter(s,c);
-            rv = (RecyclerView) getView().findViewById(R.id.recyclerview);
-            rv.setAdapter(ad);
-            rv.setItemAnimator(new DefaultItemAnimator());
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(c);
-            rv.setLayoutManager(mLayoutManager);
-            DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(
-                    rv.getContext(),
-                    mLayoutManager.getOrientation()
-            );
-            rv.addItemDecoration(mDividerItemDecoration);
-            // ...
+            DatabaseReference databaseReference=FirebaseDatabase.getInstance().getReference().child("users");
+            databaseReference.addListenerForSingleValueEvent(followerPostsListener);
+
         }
 
         @Override
@@ -104,8 +115,8 @@ public class HomeFragment extends Fragment {
 
         User u=new User();
         FirebaseUser f = FirebaseAuth.getInstance().getCurrentUser();
-        ref = FirebaseDatabase.getInstance().getReference().child("users").child(f.getUid());
-        ref.addValueEventListener(userListener);
+        ref = FirebaseDatabase.getInstance().getReference().child("users").child(f.getUid()).child("following");
+        ref.addValueEventListener(followerListener);
         // String imageUrlItem, String imageUrlDp, String description, Date time
         c=getContext();
 
