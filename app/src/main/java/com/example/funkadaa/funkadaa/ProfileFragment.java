@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -47,6 +48,7 @@ public class ProfileFragment extends Fragment {
     private static final int ERROR_DIALOG_REQUEST = 9001;
     String userid;
     ImageView btn;
+    TextToSpeech ts;
     DatabaseReference mref;
     GridView gridview;
     SearchAdapter ad;
@@ -81,6 +83,12 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         c=getContext();
+        ts=new TextToSpeech(c, new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+
+            }
+        });
         userid = getArguments().getString("userid");
         mref = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
         if (getArguments() != null) {
@@ -195,6 +203,7 @@ public class ProfileFragment extends Fragment {
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
             String username = (String)dataSnapshot.child("name").getValue();
+            ts.speak(username,TextToSpeech.QUEUE_FLUSH,null);
             ImageView dp = (ImageView)getView().findViewById(R.id.imageView5);
             TextView name = (TextView)getView().findViewById(R.id.textView5);
             name.setText(username);

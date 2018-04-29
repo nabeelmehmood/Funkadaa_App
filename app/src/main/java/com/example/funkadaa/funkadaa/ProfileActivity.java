@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.Image;
+import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -58,6 +59,7 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
             // Get Post object and use the values to update the UI
             String username = (String)dataSnapshot.child("name").getValue();
             name.setText(username);
+
             dpurl = (String)dataSnapshot.child("dp").getValue();
             new ImageThumbnailDownloaderAsync(dp,c).execute(dpurl);
 
@@ -102,11 +104,13 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         c=this;
+
         mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
         mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         gridView = (GridView)findViewById(R.id.gridview);
