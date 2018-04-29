@@ -69,9 +69,6 @@ public class SearchItem extends Fragment implements SensorEventListener {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id);
             ref.addValueEventListener(userListener);
 
-            if (p != null) {
-                new ImageThumbnailDownloaderAsync(dp,c).execute(p.getImageID());
-            }
             image=(ImageView) getView().findViewById(R.id.searchitem_image);
             if (p != null) {
                 new ImageDownloaderAsync(image,c).execute(p.getImageID());
@@ -95,6 +92,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
             String username = (String)dataSnapshot.child("name").getValue();
             name.setText(username);
             name2.setText(username);
+            new ImageThumbnailDownloaderAsync(dp,c).execute((String)dataSnapshot.child("dp").getValue());
             // ...
         }
 
