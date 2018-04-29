@@ -105,7 +105,6 @@ public class HomeFragment extends Fragment {
         User u=new User();
         FirebaseUser f = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference().child("users").child(f.getUid());
-        u.setName("Blah Blah ");
         ref.addValueEventListener(userListener);
         // String imageUrlItem, String imageUrlDp, String description, Date time
         c=getContext();
