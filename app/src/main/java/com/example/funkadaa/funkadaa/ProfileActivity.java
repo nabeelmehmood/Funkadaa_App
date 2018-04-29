@@ -2,6 +2,10 @@ package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +33,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ProfileActivity extends AppCompatActivity {
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+public class ProfileActivity extends AppCompatActivity  implements SensorEventListener{
 
     Context c;
     GridView gridView;
@@ -40,6 +46,11 @@ public class ProfileActivity extends AppCompatActivity {
     Button follow;
     String curruser;
     String dpurl;
+    boolean isfollow = false;
+
+    private SensorManager mSensorManager;
+    private Sensor mProximity;
+    private static final int SENSOR_SENSITIVITY = 4;
 
     ValueEventListener userListener = new ValueEventListener() {
         @Override
@@ -79,6 +90,7 @@ public class ProfileActivity extends AppCompatActivity {
             // Get Post object and use the values to update the UI
             if (dataSnapshot.child(userid).exists()) {
               follow.setEnabled(false);
+              isfollow = true;
             }
         }
 
@@ -95,6 +107,8 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         c=this;
+        mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
+        mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         gridView = (GridView)findViewById(R.id.gridview);
         userid = getIntent().getStringExtra("userid");
         ad = new SearchAdapter(c);
@@ -116,7 +130,7 @@ public class ProfileActivity extends AppCompatActivity {
                     mref.child("following").child(userid).setValue("true");
                     Toast.makeText(c,"User followed",Toast.LENGTH_SHORT).show();
                     follow.setEnabled(false);
-
+                    isfollow=true;
                     DatabaseReference curruserref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser);
                     curruserref.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
@@ -160,4 +174,54 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+            if (event.values[0] >= -SENSOR_SENSITIVITY && event.values[0] <= SENSOR_SENSITIVITY) {
+                //near
+                if (isfollow){
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser).child("following");
+                    ref.child(userid).removeValue();
+                    follow.setEnabled(true);
+                    Toast.makeText(getApplicationContext(), "User Unfollowed", Toast.LENGTH_SHORT).show();
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "User is not being followed", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+            } else {
+                //far
+                Toast.makeText(getApplicationContext(), "far", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
+
+    public void followOnProximity() {
+        if (curruser != null) {
+
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
+
 }

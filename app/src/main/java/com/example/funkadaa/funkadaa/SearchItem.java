@@ -19,11 +19,14 @@ import android.widget.Toast;
 
 import com.example.funkadaa.classes.*;
 import com.example.funkadaa.classes.Post;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Date;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -38,6 +41,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
     ImageView image;
     Context c;
     Bundle b;
+    String curruser;
     private SensorManager mSensorManager;
     private Sensor mProximity;
     private static final int SENSOR_SENSITIVITY = 4;
@@ -121,7 +125,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
         c = getContext();
         mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
         mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
-
+        curruser = FirebaseAuth.getInstance().getUid();
         return inflater.inflate(R.layout.fragment_search_item, container, false);
 
     }
@@ -167,5 +171,12 @@ public class SearchItem extends Fragment implements SensorEventListener {
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public void followOnProximity() {
+        if (curruser != null) {
+
+
+        }
     }
 }
