@@ -2,6 +2,10 @@ package com.example.funkadaa.funkadaa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,8 +25,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class SearchItem extends Fragment {
+
+public class SearchItem extends Fragment implements SensorEventListener {
 
     DatabaseReference mref;
     TextView desc;
@@ -32,6 +38,9 @@ public class SearchItem extends Fragment {
     ImageView image;
     Context c;
     Bundle b;
+    private SensorManager mSensorManager;
+    private Sensor mProximity;
+    private static final int SENSOR_SENSITIVITY = 4;
 
     ValueEventListener postListener = new ValueEventListener() {
         @Override
@@ -112,9 +121,25 @@ public class SearchItem extends Fragment {
         String id = getArguments().getString("postid");
         mref = FirebaseDatabase.getInstance().getReference().child("posts").child(id);
         c = getContext();
+        mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
+        mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
 
         return inflater.inflate(R.layout.fragment_search_item, container, false);
+
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, mProximity, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -123,6 +148,26 @@ public class SearchItem extends Fragment {
         mref.addValueEventListener(postListener);
 
 
+
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_PROXIMITY) {
+            if (event.values[0] >= -SENSOR_SENSITIVITY && event.values[0] <= SENSOR_SENSITIVITY) {
+                //near
+                Toast.makeText(getApplicationContext(), "near", Toast.LENGTH_SHORT).show();
+
+                
+            } else {
+                //far
+                Toast.makeText(getApplicationContext(), "far", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
 }

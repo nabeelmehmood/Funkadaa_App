@@ -69,6 +69,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             TextView tvTitle = ((TextView)myContentsView.findViewById(R.id.title));
             tvTitle.setText(marker.getTitle());
+
             ImageView DP = ((ImageView)myContentsView.findViewById(R.id.imageView));
 
             DP.setImageDrawable(getResources().getDrawable(R.drawable.starrynight));
@@ -231,7 +232,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+public void markmyLocation( double lat,double longi,String name  )
+{
 
+    moveCamera(new LatLng(lat, longi), DEFAULT_ZOOM,name );
+
+
+}
 
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
@@ -255,7 +262,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM, username );
 
-
+                            markmyLocation(31.3695,74.1768,"Bahria Town");
 
 
                         }else{
@@ -274,7 +281,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void moveCamera(LatLng latLng, float zoom,String title){
     Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
-    mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
        // if(title.equals("My Location"))
@@ -282,7 +288,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     .position(latLng)
                     .title(title);
             mMarker=mMap.addMarker(options);
-        }
+        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
+
+    }
 
     private void initMap(){
         Log.d(TAG, "initMap: initializing map");
