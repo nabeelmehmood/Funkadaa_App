@@ -2,6 +2,7 @@ package com.example.funkadaa.funkadaa;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
@@ -13,6 +14,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,14 +26,18 @@ import com.google.firebase.database.DatabaseReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import org.w3c.dom.Text;
+
 public class MainActivity extends FragmentActivity implements IMainActivity {
     private static final String TAG = "PostFragment";
     private TextView mTextMessage;
     String userid;
     Fragment F;
+    TextToSpeech ts;
     private FirebaseAnalytics mFirebaseAnalytics;
     DatabaseReference mDatabase;
     String imageuri;
+    Text text;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -104,6 +110,8 @@ public class MainActivity extends FragmentActivity implements IMainActivity {
         // Create global configuration and initialize ImageLoader with this config
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
+
+
 
         userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         super.onCreate(savedInstanceState);
