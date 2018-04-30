@@ -49,13 +49,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
 import static com.example.funkadaa.funkadaa.R.drawable.zain19;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
 
 
     ImageView DP;
-
+    Double var1, var2;
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         private final View myContentsView;
@@ -125,7 +126,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String userid;
     String username;
     String dpurl;
+<<<<<<< HEAD
     double var1, var2 ;//location
+=======
+    ArrayList<User> u;
+>>>>>>> 33f810c3281cff736a0fa19741e21370f1090120
     ValueEventListener userListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -145,7 +150,35 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 
+    ValueEventListener locationListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            // Get Post object and use the values to update the UI
+            u = new ArrayList<>();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    if(messageSnapshot.child("location").exists()){
+                        User temp = new User();
+                        temp.setDp((String)messageSnapshot.child("dp").getValue());
+                        temp.setName((String)messageSnapshot.child("name").getValue());
+                        temp.setLatitude((double)messageSnapshot.child("location").child("latitude").getValue());
+                        temp.setLongitude((double)messageSnapshot.child("location").child("longitude").getValue());
+                        u.add(temp);
 
+                    }
+                }
+            }
+
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+            // Getting Post failed, log a message
+            Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+            // ...
+        }
+    };
 
 
 
@@ -156,7 +189,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.maplayout);
         mInfo = (ImageView) findViewById(R.id.place_info);
         FirebaseUser f = FirebaseAuth.getInstance().getCurrentUser();
-
+        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("users");
+        u = new ArrayList<>();
 
         userid= f.getUid();
 
@@ -259,9 +293,16 @@ public void markmyLocation( double lat,double longi,String name  )
                             var1=currentLocation.getLatitude();
                             var2=currentLocation.getLongitude();
 
+<<<<<<< HEAD
                             DatabaseReference locRef = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("location");
                             locRef.child("longitude").setValue(String.valueOf(var1));
                             locRef.child("latitude").setValue(String.valueOf(var2));
+=======
+
+                            DatabaseReference locRef = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("location");
+                            locRef.child("longitude").setValue(currentLocation.getLongitude());
+                            locRef.child("latitude").setValue(currentLocation.getLatitude());
+>>>>>>> 33f810c3281cff736a0fa19741e21370f1090120
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM, username );
 
