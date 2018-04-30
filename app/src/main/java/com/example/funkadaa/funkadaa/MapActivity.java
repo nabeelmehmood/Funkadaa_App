@@ -125,7 +125,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String userid;
     String username;
     String dpurl;
-
+    double var1, var2 ;//location
     ValueEventListener userListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -256,9 +256,12 @@ public void markmyLocation( double lat,double longi,String name  )
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
 
+                            var1=currentLocation.getLatitude();
+                            var2=currentLocation.getLongitude();
 
-
-
+                            DatabaseReference locRef = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("location");
+                            locRef.child("longitude").setValue(String.valueOf(var1));
+                            locRef.child("latitude").setValue(String.valueOf(var2));
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM, username );
 
