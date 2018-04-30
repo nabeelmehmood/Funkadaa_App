@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.Image;
+import android.net.Uri;
 import android.speech.tts.TextToSpeech;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.example.funkadaa.classes.ImageThumbnailDownloaderAsync;
 import com.example.funkadaa.classes.SearchAdapter;
 import com.example.funkadaa.classes.SelectUpload;
 import com.example.funkadaa.classes.User;
+import com.google.android.gms.appinvite.AppInviteInvitation;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,12 +47,14 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
     GridView gridView;
     TextView name;
     String userid;
+    Button invite;
     SearchAdapter ad;
     ImageView dp;
     Button follow;
     String curruser;
     String dpurl;
     boolean isfollow = false;
+    int REQUEST_INVITE = 1142;
 
     private SensorManager mSensorManager;
     private Sensor mProximity;
@@ -107,12 +111,27 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
         }
     };
 
+    private void onInviteClicked() {
+        Intent intent = new AppInviteInvitation.IntentBuilder("FunKadaa")
+                .setMessage("Invitation to FunKadaa")
+                .build();
+        startActivityForResult(intent, REQUEST_INVITE);
+    }
+
+    View.OnClickListener inviteClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onInviteClicked();
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         c=this;
-
+        invite = (Button)findViewById(R.id.inviteButton);
+        invite.setOnClickListener(inviteClick);
         mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
         mProximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         gridView = (GridView)findViewById(R.id.gridview);
@@ -229,5 +248,26 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
         super.onPause();
         mSensorManager.unregisterListener(this);
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: requestCode=" + requestCode + ", resultCode=" + resultCode);
+
+        if (requestCode == REQUEST_INVITE) {
+            if (resultCode == RESULT_OK) {
+                // Get the invitation IDs of all sent messages
+                String[] ids = AppInviteInvitation.getInvitationIds(resultCode, data);
+                for (String id : ids) {
+                    Log.d(TAG, "onActivityResult: sent invitation " + id);
+                }
+                Toast.makeText(c,"Invitation sent",Toast.LENGTH_SHORT).show();
+            } else {
+                // Sending failed or it was canceled, show failure message to the user
+                // ...
+            }
+        }
+    }
+
 
 }
