@@ -1,7 +1,11 @@
 package com.example.funkadaa.funkadaa;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -47,7 +51,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 import static android.content.ContentValues.TAG;
 import static com.example.funkadaa.funkadaa.R.drawable.zain19;
@@ -72,10 +80,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             tvTitle.setText(marker.getTitle());
 
             DP = ((ImageView)myContentsView.findViewById(R.id.imageView));
+            new ImageThumbnailDownloaderAsync(DP,getApplicationContext()).execute(marker.getSnippet());
 
       //      DP.setImageDrawable(getResources().getDrawable(R.drawable.starrynight));
 
-            new ImageDownloaderAsync(DP,myContentsView.getContext()).execute(dpurl);
 
             return myContentsView;
         }
@@ -126,11 +134,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String userid;
     String username;
     String dpurl;
-<<<<<<< HEAD
-    double var1, var2 ;//location
-=======
+
     ArrayList<User> u;
->>>>>>> 33f810c3281cff736a0fa19741e21370f1090120
     ValueEventListener userListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -167,7 +172,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                     }
                 }
+                for(int i=0;i<u.size();i++)
+                    addmarker(new LatLng(u.get(i).getLatitude(),u.get(i).getLongitude()),u.get(i).getName(),u.get(i).getDp());
+
             }
+
 
 
         }
@@ -191,7 +200,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         FirebaseUser f = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference mRef = FirebaseDatabase.getInstance().getReference().child("users");
         u = new ArrayList<>();
-
+        mRef.addListenerForSingleValueEvent(locationListener);
         userid= f.getUid();
 
 
@@ -266,13 +275,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-public void markmyLocation( double lat,double longi,String name  )
-{
-
-    moveCamera(new LatLng(lat, longi), DEFAULT_ZOOM,name );
 
 
-}
+
 
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
@@ -293,20 +298,15 @@ public void markmyLocation( double lat,double longi,String name  )
                             var1=currentLocation.getLatitude();
                             var2=currentLocation.getLongitude();
 
-<<<<<<< HEAD
-                            DatabaseReference locRef = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("location");
-                            locRef.child("longitude").setValue(String.valueOf(var1));
-                            locRef.child("latitude").setValue(String.valueOf(var2));
-=======
 
                             DatabaseReference locRef = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("location");
                             locRef.child("longitude").setValue(currentLocation.getLongitude());
                             locRef.child("latitude").setValue(currentLocation.getLatitude());
->>>>>>> 33f810c3281cff736a0fa19741e21370f1090120
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
-                                    DEFAULT_ZOOM, username );
 
-                            markmyLocation(31.3695,74.1768,"Bahria Town");
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
+                                    DEFAULT_ZOOM);
+
+                            //markmyLocation(31.3695,74.1768);
 
 
                         }else{
@@ -323,19 +323,25 @@ public void markmyLocation( double lat,double longi,String name  )
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom,String title){
+    private void moveCamera(LatLng latLng, float zoom){
     Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude );
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
        // if(title.equals("My Location"))
-            MarkerOptions options = new MarkerOptions()
-                    .position(latLng)
-                    .title(title);
-            mMarker=mMap.addMarker(options);
-        mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
+
 
     }
+private void addmarker(LatLng latLng,String name,String dplink)
+{
 
+    MarkerOptions options = new MarkerOptions()
+            .position(latLng)
+            .title(name)
+            .snippet(dplink);
+
+    mMarker=mMap.addMarker(options);
+    mMap.setInfoWindowAdapter(new MyInfoWindowAdapter());
+}
     private void initMap(){
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -399,9 +405,28 @@ public void markmyLocation( double lat,double longi,String name  )
             }
 
             moveCamera(new LatLng(place.getViewport().getCenter().latitude,
-                    place.getViewport().getCenter().longitude), DEFAULT_ZOOM, mPlace.getName());
+                    place.getViewport().getCenter().longitude), DEFAULT_ZOOM);
 
             places.release();
         }
     };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
