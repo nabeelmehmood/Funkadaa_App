@@ -64,7 +64,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     ImageView DP;
-    Double var1, var2;
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         private final View myContentsView;
@@ -134,6 +133,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String userid;
     String username;
     String dpurl;
+
+    double var1, var2 ;//location
+
 
     ArrayList<User> u;
     ValueEventListener userListener = new ValueEventListener() {
@@ -297,8 +299,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                             var1=currentLocation.getLatitude();
                             var2=currentLocation.getLongitude();
-
-
                             DatabaseReference locRef = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("location");
                             locRef.child("longitude").setValue(currentLocation.getLongitude());
                             locRef.child("latitude").setValue(currentLocation.getLatitude());
