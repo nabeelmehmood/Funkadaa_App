@@ -56,7 +56,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     ImageView DP;
-    Double var1, var2;
     class MyInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
         private final View myContentsView;
@@ -126,11 +125,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String userid;
     String username;
     String dpurl;
-<<<<<<< HEAD
     double var1, var2 ;//location
-=======
+
     ArrayList<User> u;
->>>>>>> 33f810c3281cff736a0fa19741e21370f1090120
     ValueEventListener userListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -293,16 +290,10 @@ public void markmyLocation( double lat,double longi,String name  )
                             var1=currentLocation.getLatitude();
                             var2=currentLocation.getLongitude();
 
-<<<<<<< HEAD
-                            DatabaseReference locRef = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("location");
-                            locRef.child("longitude").setValue(String.valueOf(var1));
-                            locRef.child("latitude").setValue(String.valueOf(var2));
-=======
-
                             DatabaseReference locRef = FirebaseDatabase.getInstance().getReference().child("users").child(userid).child("location");
                             locRef.child("longitude").setValue(currentLocation.getLongitude());
                             locRef.child("latitude").setValue(currentLocation.getLatitude());
->>>>>>> 33f810c3281cff736a0fa19741e21370f1090120
+
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()),
                                     DEFAULT_ZOOM, username );
 

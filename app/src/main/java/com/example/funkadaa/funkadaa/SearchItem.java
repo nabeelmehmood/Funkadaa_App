@@ -1,33 +1,48 @@
 package com.example.funkadaa.funkadaa;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.funkadaa.classes.*;
 import com.example.funkadaa.classes.Post;
+import com.facebook.CallbackManager;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Date;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -44,9 +59,14 @@ public class SearchItem extends Fragment implements SensorEventListener {
     Context c;
     Bundle b;
     String curruser;
+    ImageButton twitterButton;
+    ImageButton shareButton;
+    CallbackManager callbackManager;
+    ShareDialog shareDialog;
     private SensorManager mSensorManager;
     private Sensor Gyro;
     private static final int SENSOR_SENSITIVITY = 4;
+    int WRITE_STORAGE_PERMISSION_REQUEST_CODE = 1194;
 
     ValueEventListener postListener = new ValueEventListener() {
         @Override
@@ -132,6 +152,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
         String id = getArguments().getString("postid");
         mref = FirebaseDatabase.getInstance().getReference().child("posts").child(id);
         c = getContext();
+
         mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
         Gyro =mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         curruser = FirebaseAuth.getInstance().getUid();
@@ -155,12 +176,30 @@ public class SearchItem extends Fragment implements SensorEventListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        shareButton = (ImageButton)getView().findViewById(R.id.imageButton1);
+        shareButton.setOnClickListener(shareListener);
+        shareDialog = new ShareDialog(this);
+        twitterButton = (ImageButton)getView().findViewById(R.id.imageButton4);
         mref.addValueEventListener(postListener);
-
-
+        twitterButton.setOnClickListener(tweetListener);
 
     }
+
+    View.OnClickListener shareListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            SharePhoto photo = new SharePhoto.Builder()
+                    .setBitmap(((BitmapDrawable)image.getDrawable()).getBitmap())
+                    .build();
+            SharePhotoContent content = new SharePhotoContent.Builder()
+                    .addPhoto(photo)
+                    .build();
+            if(shareDialog.canShow(SharePhotoContent.class)){
+                shareDialog.show(content);
+            }
+            shareDialog.show(content, ShareDialog.Mode.AUTOMATIC);
+        }
+    };
 
     @Override
     public void onSensorChanged(SensorEvent event) {
@@ -182,4 +221,57 @@ public class SearchItem extends Fragment implements SensorEventListener {
 
         }
     }
+
+    View.OnClickListener tweetListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (checkPermissionForWriteExtertalStorage()) {
+                Bitmap b = ((BitmapDrawable) image.getDrawable()).getBitmap();
+                Uri u = getImageUri(c, b);
+                TweetComposer.Builder builder = new TweetComposer.Builder(c)
+                        .text("Check out this post from FunKadaa. #FunKadaa")
+                        .image(u);
+                builder.show();
+            }
+            else{
+                try {
+                    requestPermissionForReadExtertalStorage();
+                    Bitmap b = ((BitmapDrawable) image.getDrawable()).getBitmap();
+                    Uri u = getImageUri(c, b);
+                    TweetComposer.Builder builder = new TweetComposer.Builder(c)
+                            .text("Check out this post from FunKadaa. #FunKadaa")
+                            .image(u);
+                    builder.show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
+    public boolean checkPermissionForWriteExtertalStorage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int result = c.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            return result == PackageManager.PERMISSION_GRANTED;
+        }
+        return false;
+    }
+
+    public void requestPermissionForReadExtertalStorage() throws Exception {
+        try {
+            ActivityCompat.requestPermissions((Activity) c, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    WRITE_STORAGE_PERMISSION_REQUEST_CODE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
 }

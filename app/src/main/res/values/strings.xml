@@ -29,6 +29,7 @@
     </string>
     <string name="facebook_app_id">242938859597827</string>
     <string name="fb_login_protocol_scheme">fb242938859597827</string>
-
+    <string name="com.twitter.sdk.android.CONSUMER_KEY">3UFXE9yFUbzwcFMpj2imFfSyb</string>
+    <string name="com.twitter.sdk.android.CONSUMER_SECRET">JMtj9kaYRXonCNpKBpNC96J3LagjBFTNGkBmUjbz4FAquJRtly</string>
 
 </resources>
