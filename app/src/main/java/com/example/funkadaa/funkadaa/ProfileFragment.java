@@ -60,6 +60,9 @@ public class ProfileFragment extends Fragment {
     SearchAdapter ad;
     Context c;
     TextToSpeech ts;
+    ImageButton cartButton;
+    int postcount;
+    int followercount;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -147,17 +150,27 @@ public class ProfileFragment extends Fragment {
         }
     }
 
+    View.OnClickListener cartListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent i = new Intent(c,CartActivity.class);
+            i.putExtra("user",userid);
+            startActivity(i);
+        }
+    };
+
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btn = (ImageView)getView().findViewById(R.id.imageView5);
-
+        cartButton = (ImageButton)getView().findViewById(R.id.cartButton);
+        cartButton.setOnClickListener(cartListener);
 
         userid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         gridview = (GridView)getView().findViewById(R.id.gridview);
         ad = new SearchAdapter(c);
         gridview.setAdapter(ad);
-        mref.addValueEventListener(userListener);
+        mref.addListenerForSingleValueEvent(userListener);
         Button signout = (Button)getView().findViewById(R.id.signoutbutton);
         signout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,6 +188,7 @@ public class ProfileFragment extends Fragment {
                 startActivityForResult(photoPickerIntent, 1);
             }
         });
+
 
 
 
@@ -247,6 +261,9 @@ public class ProfileFragment extends Fragment {
                 s.add(imageID);
                 p.add(postID);
             }
+            postcount = p.size();
+            TextView posttext = getView().findViewById(R.id.textView9);
+            posttext.setText(String.valueOf(postcount));
             ad.setImgIDs(s);
             ad.setPostIDs(p);
             ad.notifyDataSetChanged();

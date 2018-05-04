@@ -61,12 +61,14 @@ public class SearchItem extends Fragment implements SensorEventListener {
     String curruser;
     ImageButton twitterButton;
     ImageButton shareButton;
+    ImageButton cartButton;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     private SensorManager mSensorManager;
     private Sensor Gyro;
     private static final int SENSOR_SENSITIVITY = 4;
     int WRITE_STORAGE_PERMISSION_REQUEST_CODE = 1194;
+    String postid;
 
     ValueEventListener postListener = new ValueEventListener() {
         @Override
@@ -93,7 +95,7 @@ public class SearchItem extends Fragment implements SensorEventListener {
                 }
             });
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(id);
-            ref.addValueEventListener(userListener);
+            ref.addListenerForSingleValueEvent(userListener);
 
             image=(ImageView) getView().findViewById(R.id.searchitem_image);
             if (p != null) {
@@ -149,8 +151,8 @@ public class SearchItem extends Fragment implements SensorEventListener {
 
             }
         });
-        String id = getArguments().getString("postid");
-        mref = FirebaseDatabase.getInstance().getReference().child("posts").child(id);
+        postid = getArguments().getString("postid");
+        mref = FirebaseDatabase.getInstance().getReference().child("posts").child(postid);
         c = getContext();
 
         mSensorManager = (SensorManager) c.getSystemService(Context.SENSOR_SERVICE);
@@ -182,8 +184,20 @@ public class SearchItem extends Fragment implements SensorEventListener {
         twitterButton = (ImageButton)getView().findViewById(R.id.imageButton4);
         mref.addValueEventListener(postListener);
         twitterButton.setOnClickListener(tweetListener);
+        cartButton = (ImageButton)getView().findViewById(R.id.imageButton3);
+        cartButton.setOnClickListener(cartListener);
 
     }
+
+    View.OnClickListener cartListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser);
+            ref = ref.child("cart");
+            ref.child(postid).setValue("true");
+            Toast.makeText(c,"Added to card",Toast.LENGTH_SHORT).show();
+        }
+    };
 
     View.OnClickListener shareListener = new View.OnClickListener() {
         @Override

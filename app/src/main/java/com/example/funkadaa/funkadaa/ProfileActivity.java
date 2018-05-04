@@ -79,6 +79,9 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
                 s.add(imageID);
                 p.add(postID);
             }
+            int postcount = p.size();
+            TextView posttext = findViewById(R.id.textView);
+            posttext.setText(String.valueOf(postcount));
             ad.setImgIDs(s);
             ad.setPostIDs(p);
             ad.notifyDataSetChanged();
@@ -140,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity  implements SensorEventLi
         gridView.setAdapter(ad);
         name = (TextView)findViewById(R.id.profilename);
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
-        mref.addValueEventListener(userListener);
+        mref.addListenerForSingleValueEvent(userListener);
         dp = (ImageView)findViewById(R.id.profileimage);
         curruser = FirebaseAuth.getInstance().getUid();
         follow = (Button)findViewById(R.id.followbutton);

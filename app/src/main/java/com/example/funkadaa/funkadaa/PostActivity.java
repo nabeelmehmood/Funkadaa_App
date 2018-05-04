@@ -71,7 +71,7 @@ public class PostActivity extends AppCompatActivity {
         twitterButton.setOnClickListener(tweetListener);
         dp = (ImageView)findViewById(R.id.post_dp);
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("posts").child(postid);
-        mref.addValueEventListener(postListener);
+        mref.addListenerForSingleValueEvent(postListener);
     }
 
     View.OnClickListener shareListener = new View.OnClickListener() {

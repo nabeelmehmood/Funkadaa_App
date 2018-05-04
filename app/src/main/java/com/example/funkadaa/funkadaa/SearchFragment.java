@@ -104,7 +104,7 @@ public class SearchFragment extends Fragment {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
         gridview = (GridView) getView().findViewById(R.id.gridview);
-        mRef.addValueEventListener(postListener);
+        mRef.addListenerForSingleValueEvent(postListener);
         gridview.setAdapter(ad);
 
         //SingleHomeFeedItem(User u, String imageUrlItem, String imageUrlDp, String description, Date time)

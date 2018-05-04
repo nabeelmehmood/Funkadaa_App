@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
         User u=new User();
         FirebaseUser f = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance().getReference().child("users").child(f.getUid()).child("following");
-        ref.addValueEventListener(followerListener);
+        ref.addListenerForSingleValueEvent(followerListener);
         // String imageUrlItem, String imageUrlDp, String description, Date time
         c=getContext();
 
