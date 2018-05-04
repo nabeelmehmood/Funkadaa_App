@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">فن کداہ</string>
+    <string name="title_home">گھر</string>
+    <string name="title_dashboard">"ڈیش بورڈ "</string>
+    <string name="title_notifications">اطلاعات</string>
+    <string name="title_activity_first_screen">فن کداہ</string>
+    <string name="prompt_email">ای میل</string>
+    <string name="title_activity_login">داخلہ</string>
+    <string name="prompt_password">"پاس ورڈ "</string>
+    <string name="action_sign_in">سائن ان کریں یا رجسٹر کریں</string>
+    <string name="action_sign_in_short">داخلہ</string>
+    <string name="error_invalid_email">"یہ ای میل پتہ غلط ہے "</string>
+    <string name="error_invalid_password">یہ پاس ورڈ بہت مختصر ہے</string>
+    <string name="error_incorrect_password">یہ پاس ورڈ غلط ہے</string>
+    <string name="error_field_required">اس کو پر کرنا ضروری ہے</string>
+    <string name="permission_rationale">"ای میل کی تکمیل فراہم کرنے کے لئے رابطہ کی اجازت ضروری ہے. "</string>
+    <string name="Follow">پیروی</string>
+    <string name="invite">مدعو کریں</string>
+    <string name="posts">"پوسٹس "</string>
+    <string name="name">نام</string>
+    <string name="phone">"فون نمبر "</string>
+    <string name="signup">"رجسٹر کریں "</string>
+    <string name="post">"پوسٹ "</string>
+    <string name="description">"تفصیل "</string>
+    <string name="price">"قیمت "</string>
+    <string name="verfication">"توثیقی کوڈ داخل کریں "</string>
+    <string name="verify">"تصدیق کریں "</string>
+    <string name="choosephoto">"تصویر منتخب کریں "</string>
+    <string name="uploadpicture">"تصویر اپلوڈ کریں "</string>
+    <string name="map">نقشہ</string>
+    <string name="signout">باہر جائیں</string>
+    <string name="search">"تلاش کریں "</string>
+    <string name="profile">"پروفائل "</string>
+    <string name="apptitle">فن کداہ</string>
+</resources>

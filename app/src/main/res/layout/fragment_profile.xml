@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="17dp"
         android:layout_marginStart="16dp"
-        android:text="Posts"
+        android:text="@string/posts"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView8"
         app:layout_constraintStart_toEndOf="@+id/textView8" />
 
@@ -95,7 +95,7 @@
         android:layout_height="36dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="8dp"
-        android:text="MAP"
+        android:text="@string/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@android:color/background_light" />
@@ -107,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:onClick="onClickSignout"
-        android:text="Signout"
+        android:text="@string/signout"
         app:layout_constraintEnd_toEndOf="@+id/button7"
         app:layout_constraintTop_toBottomOf="@+id/button7" />
 

@@ -71,7 +71,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/colorPrimary"
                 android:onClick="onClickSignIn"
-                android:text="sign in"
+                android:text="@string/action_sign_in_short"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 

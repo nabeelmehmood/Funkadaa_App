@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">FunKadaa</string>
     <string name="title_home">Home</string>
     <string name="GoogleMapsApiKey">AIzaSyAZrE7MEKpJVJ-DbGC4FKJDNTBoWxTfWWY</string>
 
@@ -31,5 +30,24 @@
     <string name="fb_login_protocol_scheme">fb242938859597827</string>
     <string name="com.twitter.sdk.android.CONSUMER_KEY">3UFXE9yFUbzwcFMpj2imFfSyb</string>
     <string name="com.twitter.sdk.android.CONSUMER_SECRET">JMtj9kaYRXonCNpKBpNC96J3LagjBFTNGkBmUjbz4FAquJRtly</string>
+    <string name="apptitle">FunKadaa</string>
+    <string name="Follow">Follow</string>
+    <string name="app_name">FunKadaa</string>
+    <string name="invite" >Invite</string>
+    <string name="posts">Posts</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone#</string>
+    <string name="signup">Sign Up</string>
+    <string name="post">Post</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="verfication">Enter verfication code</string>
+    <string name="verify">Verify</string>
+    <string name="choosephoto">Choose Photo</string>
+    <string name="uploadpicture">Upload Picture</string>
+    <string name="map">Map</string>
+    <string name="signout">Signout</string>
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
 
 </resources>

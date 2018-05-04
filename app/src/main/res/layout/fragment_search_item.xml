@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Name"
+        android:text="@string/name"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/imageButton1"
         app:layout_constraintTop_toBottomOf="@+id/imageButton1" />
@@ -92,7 +92,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Description"
+        android:text="@string/description"
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="@+id/searchitem_name"
         app:layout_constraintTop_toBottomOf="@+id/searchitem_name" />
