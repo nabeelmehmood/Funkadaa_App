@@ -195,6 +195,8 @@ public class SearchItem extends Fragment implements SensorEventListener {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser);
             ref = ref.child("cart").child(postid);
             ref.child("imageID").setValue(p.getImageID());
+            String username = (String) name.getText();
+            ref.child("uploadername").setValue(username);
             ref.child("description").setValue(p.getDescription());
             Toast.makeText(c,"Added to card",Toast.LENGTH_SHORT).show();
         }

@@ -63,7 +63,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.myViewHolder> 
         public void setValues(SingleHomeFeedItem S, Context c){
 
             new ImageThumbnailDownloaderAsync(pic,c).execute(S.getImageUrlItem());
-            //txt1.setText(S.getU().getName());
+            txt1.setText(S.getU().getName());
             txt2.setText(S.getDescription());
 
         }

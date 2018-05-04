@@ -57,7 +57,10 @@ public class CartActivity extends AppCompatActivity {
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
                     if (messageSnapshot.exists()) {
                         SingleHomeFeedItem s = new SingleHomeFeedItem();
+                        User u = new User();
+                        u.setName((String)messageSnapshot.child("uploadername").getValue());
                         s.setImageUrlItem((String)messageSnapshot.child("imageID").getValue());
+                        s.setU(u);
                         s.setDescription((String)messageSnapshot.child("description").getValue());
                         items.add(s);
                     }
