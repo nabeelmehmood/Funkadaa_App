@@ -5,77 +5,72 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.funkadaa.funkadaa.R;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
  * Created by nabee on 5/4/2018.
  */
 
-public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
+public class CartAdapter extends RecyclerView.Adapter<CartAdapter.myViewHolder> {
 
-    private List<String> mData;
-    private LayoutInflater mInflater;
-    private ItemClickListener mClickListener;
+    private List<SingleHomeFeedItem> items;
+    private Context c;
 
-    // data is passed into the constructor
-    public CartAdapter(Context context, List<String> data) {
-        this.mInflater = LayoutInflater.from(context);
-        this.mData = data;
+    public CartAdapter(List<SingleHomeFeedItem> items, Context c) {
+        this.items = items;
+        this.c = c;
     }
-
-    // inflates the row layout from xml when needed
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.cartrow, parent, false);
-        return new ViewHolder(view);
+    public myViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
+
+        View view=inflater.inflate(R.layout.mycart,parent,false);
+        return new myViewHolder(view);
+
     }
 
-    // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        String animal = mData.get(position);
-        holder.myTextView.setText(animal);
+    public void onBindViewHolder(myViewHolder holder, int position) {
+        holder.setValues(items.get(position),c);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
-        return mData.size();
+        return 0;
     }
 
 
-    // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView myTextView;
+    class myViewHolder extends RecyclerView.ViewHolder
+    {
+        TextView txt1;
+        TextView txt2;
+        ImageView pic;
 
-        ViewHolder(View itemView) {
+
+        public myViewHolder(View itemView) {
             super(itemView);
-            myTextView = itemView.findViewById(R.id.cartitem);
-            itemView.setOnClickListener(this);
+            txt1=(TextView)itemView.findViewById(R.id.title);
+            txt2=(TextView)itemView.findViewById(R.id.price);
+            pic=(ImageView) itemView.findViewById(R.id.imageView);
+
         }
+        public void setValues(SingleHomeFeedItem S, Context c){
 
-        @Override
-        public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            new ImageThumbnailDownloaderAsync(pic,c).execute(S.getImageUrlDp());
+            txt1.setText(S.getU().getName());
+            txt2.setText(S.getDescription());
+
+
         }
     }
 
-    // convenience method for getting data at click position
-    String getItem(int id) {
-        return mData.get(id);
-    }
 
-    // allows clicks events to be caught
-    void setClickListener(ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
-
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, int position);
-    }
 }

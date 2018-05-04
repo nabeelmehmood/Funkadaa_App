@@ -80,8 +80,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             DP = ((ImageView)myContentsView.findViewById(R.id.imageView));
             new ImageThumbnailDownloaderAsync(DP,getApplicationContext()).execute(marker.getSnippet());
+            Toast.makeText(getApplicationContext(),marker.getSnippet(),Toast.LENGTH_LONG).show();
 
-      //      DP.setImageDrawable(getResources().getDrawable(R.drawable.starrynight));
+            //    DP.setImageDrawable(getResources().getDrawable(R.drawable.starrynight));
 
 
             return myContentsView;
@@ -174,8 +175,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                     }
                 }
-                for(int i=0;i<u.size();i++)
-                    addmarker(new LatLng(u.get(i).getLatitude(),u.get(i).getLongitude()),u.get(i).getName(),u.get(i).getDp());
 
             }
 
@@ -307,6 +306,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                     DEFAULT_ZOOM);
 
                             //markmyLocation(31.3695,74.1768);
+                            for(int i=0;i<u.size();i++)
+                                addmarker(new LatLng(u.get(i).getLatitude(),u.get(i).getLongitude()),u.get(i).getName(),u.get(i).getDp());
 
 
                         }else{
@@ -347,6 +348,8 @@ private void addmarker(LatLng latLng,String name,String dplink)
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(MapActivity.this);
+
+
     }
 
 

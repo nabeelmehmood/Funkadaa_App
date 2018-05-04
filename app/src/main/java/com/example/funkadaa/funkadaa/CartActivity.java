@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.funkadaa.classes.CartAdapter;
+import com.example.funkadaa.classes.SingleHomeFeedItem;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,10 +18,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
     String curruser;
-    ArrayList<String> items = new ArrayList<>();
+    private List<SingleHomeFeedItem> items;
     RecyclerView rv;
     CartAdapter ad;
     Button checkout;
@@ -34,7 +36,7 @@ public class CartActivity extends AppCompatActivity {
         curruser = getIntent().getStringExtra("user");
         rv = findViewById(R.id.cartrecycler);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        ad = new CartAdapter(this,items);
+        ad = new CartAdapter(items,c);
         rv.setAdapter(ad);
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser).child("cart");
         mref.addListenerForSingleValueEvent(cartListener);
@@ -52,7 +54,7 @@ public class CartActivity extends AppCompatActivity {
         public void onDataChange(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                    items.add(messageSnapshot.getKey());
+                   // items..add(messageSnapshot.getKey());
                 }
             }
             ad.notifyDataSetChanged();
