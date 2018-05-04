@@ -207,7 +207,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(userid);
-        mref.addValueEventListener(userListener);
+        mref.addListenerForSingleValueEvent(userListener);
 
         getLocationPermission();
         mInfo.setOnClickListener(new View.OnClickListener() {
