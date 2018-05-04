@@ -407,7 +407,7 @@ public class LoginActivity extends AppCompatActivity {
                             Log.d("GOOGLE", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             String uid = mAuth.getUid();
-                            String dp = mAuth.getCurrentUser().getPhotoUrl().toString();
+                            String dp = "default.jpg";
                             String name = mAuth.getCurrentUser().getDisplayName();
                             String email = mAuth.getCurrentUser().getEmail();
                             String phone = mAuth.getCurrentUser().getPhoneNumber();

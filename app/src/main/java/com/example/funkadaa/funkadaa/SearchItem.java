@@ -69,12 +69,12 @@ public class SearchItem extends Fragment implements SensorEventListener {
     private static final int SENSOR_SENSITIVITY = 4;
     int WRITE_STORAGE_PERMISSION_REQUEST_CODE = 1194;
     String postid;
-
+    Post p;
     ValueEventListener postListener = new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {
             // Get Post object and use the values to update the UI
-            final com.example.funkadaa.classes.Post p = dataSnapshot.getValue(Post.class);
+            p = dataSnapshot.getValue(Post.class);
             desc = (TextView)getView().findViewById(R.id.searchitem_description);
             name = (TextView)getView().findViewById(R.id.searchitem_name);
             name2 = (TextView)getView().findViewById(R.id.searchitem_name1);
@@ -193,8 +193,9 @@ public class SearchItem extends Fragment implements SensorEventListener {
         @Override
         public void onClick(View v) {
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser);
-            ref = ref.child("cart");
-            ref.child(postid).setValue("true");
+            ref = ref.child("cart").child(postid);
+            ref.child("imageID").setValue(p.getImageID());
+            ref.child("description").setValue(p.getDescription());
             Toast.makeText(c,"Added to card",Toast.LENGTH_SHORT).show();
         }
     };

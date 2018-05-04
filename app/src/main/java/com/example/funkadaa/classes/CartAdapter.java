@@ -30,10 +30,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.myViewHolder> 
     }
     @Override
     public myViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(parent.getContext());
-
-        View view=inflater.inflate(R.layout.mycart,parent,false);
-        return new myViewHolder(view);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.mycart, parent, false);
+        return new myViewHolder(v);
 
     }
 
@@ -44,7 +42,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.myViewHolder> 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
     }
 
 
@@ -64,10 +62,9 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.myViewHolder> 
         }
         public void setValues(SingleHomeFeedItem S, Context c){
 
-            new ImageThumbnailDownloaderAsync(pic,c).execute(S.getImageUrlDp());
-            txt1.setText(S.getU().getName());
+            new ImageThumbnailDownloaderAsync(pic,c).execute(S.getImageUrlItem());
+            //txt1.setText(S.getU().getName());
             txt2.setText(S.getDescription());
-
 
         }
     }

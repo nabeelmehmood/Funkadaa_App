@@ -9,8 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.funkadaa.classes.CartAdapter;
-import com.example.funkadaa.classes.SingleHomeFeedItem;
+import com.example.funkadaa.classes.*;
+import com.example.funkadaa.classes.Post;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,7 +22,7 @@ import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
     String curruser;
-    private List<SingleHomeFeedItem> items;
+    ArrayList<SingleHomeFeedItem> items;
     RecyclerView rv;
     CartAdapter ad;
     Button checkout;
@@ -36,6 +36,7 @@ public class CartActivity extends AppCompatActivity {
         curruser = getIntent().getStringExtra("user");
         rv = findViewById(R.id.cartrecycler);
         rv.setLayoutManager(new LinearLayoutManager(this));
+        items = new ArrayList<>();
         ad = new CartAdapter(items,c);
         rv.setAdapter(ad);
         DatabaseReference mref = FirebaseDatabase.getInstance().getReference().child("users").child(curruser).child("cart");
@@ -54,10 +55,17 @@ public class CartActivity extends AppCompatActivity {
         public void onDataChange(DataSnapshot dataSnapshot) {
             if (dataSnapshot.exists()) {
                 for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
-                   // items..add(messageSnapshot.getKey());
+                    if (messageSnapshot.exists()) {
+                        SingleHomeFeedItem s = new SingleHomeFeedItem();
+                        s.setImageUrlItem((String)messageSnapshot.child("imageID").getValue());
+                        s.setDescription((String)messageSnapshot.child("description").getValue());
+                        items.add(s);
+                    }
+
                 }
+                ad = new CartAdapter(items, c);
+                rv.setAdapter(ad);
             }
-            ad.notifyDataSetChanged();
         }
 
         @Override
@@ -65,4 +73,6 @@ public class CartActivity extends AppCompatActivity {
 
         }
     };
+
 }
+

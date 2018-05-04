@@ -17,6 +17,14 @@ Date time;
         this.time = time;
     }
 
+    public SingleHomeFeedItem(String imageUrlItem, String description) {
+        this.imageUrlItem = imageUrlItem;
+        this.description = description;
+    }
+
+    public SingleHomeFeedItem() {
+    }
+
     public User getU() {
         return U;
     }
